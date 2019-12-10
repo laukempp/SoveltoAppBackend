@@ -16,8 +16,6 @@ CREATE TABLE questions(
     q_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
 INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa2', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa3', DEFAULT);
