@@ -37,7 +37,28 @@ function register(req, res){
           .then(() => res.send({success: true}));
      });
 };
+
+function logout(req, res) {
+    return authService.authenticate(req.body)
+     .then(token => {
+          res.send({
+               success: true,
+               data: { token },
+               tiedot: req.body
+
+          });
+     })
+     .catch(err => {
+          res.send({
+               success: false,
+               message: err.message //not the best error handling.
+               //for better error handling visit github repository, link provided below
+          });
+     })
+
+}
 module.exports = {
     login,
-    register
+    register,
+    logout
 }
