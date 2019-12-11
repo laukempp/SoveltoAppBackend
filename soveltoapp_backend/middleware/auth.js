@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config =  require('../config/config');
 const checkAuth = (req, res, next) => {
-    var token = req.header('Authorization').replace('Bearer ', '');
+    var token = req.header('Authorization')/* .replace('Bearer ', '') */;
     if (!token)
         return res.status(403).send({ auth: false, message: 'No token provided.' });
     
