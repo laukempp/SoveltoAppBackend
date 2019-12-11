@@ -36,6 +36,7 @@ const Questions = sequelize.define('questions', {
     q_author: Sequelize.STRING
     })
 Topics.hasMany(Questions, {foreignKey: 'topics_id'});
+Questions.belongsTo(Topics, {foreignKey: 'topics_id'});
 module.exports = {
      User,
      Topics,
