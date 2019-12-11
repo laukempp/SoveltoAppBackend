@@ -19,16 +19,51 @@ function login(req, res){
           });
      })
 };
+
 function register(req, res){
      var login = req.body.login;
+     var pass = req.body.password;
+     const validName = (login) => {
+          var re = /\S+@\S+\.\S+/;
+          return re.test(login);
+     }
+      const validPassword = (pass) => {
+          var reP = /^(?=.*\d).{8,}$/;
+          return reP.test(pass)
+     } 
+     var isValidLogin = validName(login);
+     var isValidPassword = validPassword(pass);
+     /* console.log(isValid) */
      return userService.getUserByLogin(req.body.login || '')
+     /* .then(testi123 => {
+          if(invalidName) {
+               return res.send({
+                    success: false,
+                    message: 'Registration failed. Use email to register.'
+                });
+          }
+     }) */
      .then(exists => {
-          if (exists){
+           if(!isValidLogin){
+               return res.send({
+                    success: false,
+                    message: 'Registration failed. Use your email for registeration.'
+                })
+          }
+          else if(!isValidPassword){
+               return res.send({
+                    success: false,
+                    message: 'Registration failed. Password is too short, use at least 8 characters and(or) a number is required'
+               })
+          } 
+          else if (exists){
                return res.send({
                    success: false,
                    message: 'Registration failed. User with this email already registered.'
                });
           }
+        
+         /*  else if(!) */
           var user = {
                login: req.body.login,
                password: bcrypt.hashSync(req.body.password, config.saltRounds)
