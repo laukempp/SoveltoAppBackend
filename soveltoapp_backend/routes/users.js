@@ -1,6 +1,6 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const authController = require('../controllers/auth');
+const authController = require("../controllers/auth");
 
 /* GET users listing. 
 router.get('/', function(req, res, next) {
@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
 });*/
 
 module.exports.set = app => {
-    app.post('/login', authController.login);
-    app.post('/register', authController.register);
-}
+  app.post("/login", authController.login);
+  app.post("/register", authController.register);
+};
 
 /*.exports = router;*/
