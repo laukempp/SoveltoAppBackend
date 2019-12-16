@@ -1,17 +1,16 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const topicController = require('../controllers/topic')
-const authMiddleware = require('../middleware/auth')
+const topicController = require("../controllers/topic");
+const authMiddleware = require("../middleware/auth");
 
 var io = require('socket.io')();
 /* GET home page. */
 router
-
-.get('/api/topics/:id', authMiddleware.checkAuth, topicController.getQuestions)
-.post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion);
-
-
-
+  .get("/api/topics/", topicController.getAllTopics)
+  .post("/api/topics/question",
+    authMiddleware.checkAuth,
+    topicController.addQuestion)
+.get('/api/topics/:id', authMiddleware.checkAuth, topicController.getQuestions);
 
 io.on('connection', socket => {
     console.log('connection toimii');
