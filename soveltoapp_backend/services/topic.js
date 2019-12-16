@@ -12,18 +12,9 @@ const getTopics = () =>
     return topic;
   });
 
-const generateQuiz = () =>
-  Question.findAll({
-    attributes: [
-      "question",
-      "correct_answer",
-      "wrong_answer",
-      "topics_id",
-      "q_author"
-    ],
-    where: { topics_id: 3 },
-    include: [{ model: Topics, attributes: ["title"] }]
-  }).then(question => {
+const generateQuiz = (object) =>
+  Question.findAll(object).then(question => {
     return question;
   });
 module.exports = { generateQuiz, createQuestion, getTopics };
+
