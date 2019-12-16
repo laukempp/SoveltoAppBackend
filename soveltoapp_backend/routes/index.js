@@ -6,8 +6,11 @@ const authMiddleware = require('../middleware/auth')
 var io = require('socket.io')();
 /* GET home page. */
 router
-    .get('/api/topics', authMiddleware.checkAuth, topicController.getQuestions)
-    .post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion)
+
+.get('/api/topics/:id', authMiddleware.checkAuth, topicController.getQuestions)
+.post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion);
+
+
 
 
 io.on('connection', socket => {

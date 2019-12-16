@@ -1,6 +1,12 @@
 const topicservice = require('../services/topic');
+const Topics = require('../models').Topics;
+const Question = require('../models').Questions;
+
 function getQuestions(req, res){
-    topicservice.generateQuiz()
+    topicservice.generateQuiz(
+        {attributes: ['question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]}
+
+    )
     .then(data => res.send(data));
 };
 function getTopic(req, res){

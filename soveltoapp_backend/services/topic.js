@@ -7,7 +7,7 @@ const createQuestion = question => Question.create(question);
 
 /* const generateQuiz = () => Question.findAll({where: {topics_id: 3}, include: [{model: Topics}]}); */
 
-const generateQuiz = () => Question.findAll({attributes: ['question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: 3}, include:[{model: Topics, attributes: ['title']}]})
+const generateQuiz = (object) => Question.findAll(object)
 .then(question => {
     return question
 })
