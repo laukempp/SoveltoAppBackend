@@ -4,7 +4,7 @@ const Question = require('../models').Questions;
 
 function getQuestions(req, res){
     topicservice.generateQuiz(
-        {attributes: ['question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]}
+        {order: sequelize.random(), limit: 2, attributes: ['question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]}
 
     )
     .then(data => res.send(data));
