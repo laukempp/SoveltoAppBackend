@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/auth')
 
 /* GET home page. */
 router
-.get('/api/topics', authMiddleware.checkAuth, topicController.getQuestions)
+.get('/api/topics/:id', authMiddleware.checkAuth, topicController.getQuestions)
 .post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion);
 
 
