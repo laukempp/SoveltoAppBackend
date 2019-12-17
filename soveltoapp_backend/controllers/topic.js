@@ -1,30 +1,34 @@
-const topicservice = require('../services/topic');
 const Topics = require('../models').Topics;
-const Question = require('../models').Questions;
+const topicservice = require("../services/topic");
+
+function getAllTopics(req, res) {
+  topicservice.getTopics().then(data => res.send(data));
+}
 
 function getQuestions(req, res){
     topicservice.generateQuiz(
-        {order: sequelize.random(), limit: 2, attributes: ['question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]}
-
-    )
+        {order: sequelize.random(), limit: 2, attributes: ['id', 'question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]})
     .then(data => res.send(data));
 };
-function getTopic(req, res){
-    topicservice.getById(req.params.id)
-    .then(data => res.send(data));
-}
-function addQuestion(req, res){
-    topicservice.createQuestion({
-        question: req.body.question,
-        correct_answer: req.body.correct_answer,
-        wrong_answer: req.body.wrong_answer,
-        topics_id: 1,
-        q_author: req.body.q_author
+
+function addQuestion(req, res) {
+  topicservice.createQuestion({
+      question: req.body.question,
+      correct_answer: req.body.correct_answer,
+      wrong_answer: req.body.wrong_answer,
+      topics_id: req.body.topics_id,
+      q_author: req.body.q_author
     })
     .then(data => res.send(data));
-};
-module.exports = {
-    getQuestions,
-    getTopic,
-    addQuestion
 }
+
+function getStudentQuestions(req, res) {
+    topicservice.getStudentQuestions({ where: { id: [2,3] } })
+    .then(data => res.send(data))
+}
+module.exports = {
+  getQuestions,
+  getAllTopics,
+  addQuestion,
+  getStudentQuestions
+};

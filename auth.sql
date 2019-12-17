@@ -30,12 +30,15 @@ CREATE TABLE questions(
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa2', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa3', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa4', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa5', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('tämähän on helppoa6', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('Angular', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('AWS', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
+
+
+ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'Is this easy', 'no', '{{"yes", "kind of", "not sure"}}', 'Tommi', DEFAULT);
 
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'onko tämä helppoa?', 'ei', '{"joo on helppoa", "ehkä on helppoa", "en tiedä"}', 'Tommi', DEFAULT);
 
@@ -53,3 +56,4 @@ CREATE TABLE quiz(
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
