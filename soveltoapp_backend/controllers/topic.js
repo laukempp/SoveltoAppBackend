@@ -7,7 +7,7 @@ function getAllTopics(req, res) {
 
 function getQuestions(req, res){
     topicservice.generateQuiz(
-        {order: sequelize.random(), limit: 2, attributes: ['id', 'question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.params.id}, include:[{model: Topics, attributes: ['title']}]})
+        {order: sequelize.random(), limit: req.body.number, attributes: ['id', 'question', 'correct_answer', 'wrong_answer', 'topics_id', 'q_author'],where:{topics_id: req.body.topics_id}, include:[{model: Topics, attributes: ['title']}]})
     .then(data => res.send(data));
 };
 
