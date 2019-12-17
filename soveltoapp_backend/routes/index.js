@@ -15,13 +15,16 @@ router
 
 io.on('connection', socket => {
     console.log('connection toimii');
-    var quizUrl = '/student/quiz';
+    var quizUrl = `/student/quiz/`;
+    
     socket.on('eventClick', () => {
         console.log('eventclick console logi')
-
         socket.broadcast.emit('redirect', quizUrl)
-   /*  socket.broadcast.emit('quizdata', quizdata) */
     });
+    socket.on('eventMessage', (message) => {
+        console.log('message serverillä, lähetetään eteenpäin')
+        socket.broadcast.emit('eventMessageStudent', message)
+    })
         
     socket.on('disconnect', client => console.log("disconnected, reload to reconnect"))
 })
