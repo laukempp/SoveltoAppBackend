@@ -15,8 +15,7 @@ function login(req, res) {
     .catch(err => {
       res.send({
         success: false,
-        message: err.message //not the best error handling.
-        //for better error handling visit github repository, link provided below
+        message: err.message
       });
     });
 }
@@ -34,18 +33,10 @@ function register(req, res) {
   };
   var isValidLogin = validName(login);
   var isValidPassword = validPassword(pass);
-  /* console.log(isValid) */
   return (
     userService
       .getUserByLogin(req.body.login || "")
-      /* .then(testi123 => {
-          if(invalidName) {
-               return res.send({
-                    success: false,
-                    message: 'Registration failed. Use email to register.'
-                });
-          }
-     }) */
+      
       .then(exists => {
         if (!isValidLogin) {
           return res.send({
@@ -66,7 +57,6 @@ function register(req, res) {
           });
         }
 
-        /*  else if(!) */
         var user = {
           login: req.body.login,
           password: bcrypt.hashSync(req.body.password, config.saltRounds)
@@ -93,8 +83,7 @@ function logout(req, res) {
     .catch(err => {
       res.send({
         success: false,
-        message: err.message //not the best error handling.
-        //for better error handling visit github repository, link provided below
+        message: err.message
       });
     });
 }
