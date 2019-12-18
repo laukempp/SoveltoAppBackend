@@ -10,9 +10,9 @@ const authenticate = params => {
           raw: true
      }).then(user => {
           if (!user)
-              throw new Error('Authentication failed. User not found.');
+              throw new Error('Kirjautuminen epäonnistui. Käyttäjää ei löytynyt.');
           if (!bcrypt.compareSync(params.password || '', user.password))
-              throw new Error('Authentication failed. Wrong password.');
+              throw new Error('Kirjautuminen epäonnistui. Väärä salasana.');
           const payload = {
               login: user.login,
               id: user.id,
