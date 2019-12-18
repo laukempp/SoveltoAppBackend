@@ -1,4 +1,3 @@
-/*const Sequelize = require('sequelize');*/
 const db = require("../db/db");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;
@@ -9,18 +8,7 @@ const User = sequelize.define("user", {
 });
 const Topics = sequelize.define("topics", {
   title:
-    Sequelize.STRING /*,
-     date: {
-         type: Sequelize.DATE,
-         defaultValue: Sequelize.NOW
-      },
-     user_id: {
-         type: Sequelize.INTEGER,
-         references: {
-              model: User,
-              key: 'id'
-          }
-      }*/
+    Sequelize.STRING
 });
 
 const Questions = sequelize.define("questions", {
