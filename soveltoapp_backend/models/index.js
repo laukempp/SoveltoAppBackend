@@ -1,3 +1,4 @@
+// Luodaan tietokannasta malli
 const db = require("../db/db");
 sequelize = db.sequelize;
 Sequelize = db.Sequelize;

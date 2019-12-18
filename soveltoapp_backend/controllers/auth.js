@@ -41,19 +41,19 @@ function register(req, res) {
         if (!isValidLogin) {
           return res.send({
             success: false,
-            message: "Registration failed. Use your email for registeration."
+            message: "Rekisteröinti epäonnistui. Käytä sähköpostiosoitettasi"
           });
         } else if (!isValidPassword) {
           return res.send({
             success: false,
             message:
-              "Registration failed. Password is too short, use at least 8 characters and(or) a number is required"
+              "Rekisteröinti epäonnistui. Salasana on liian lyhyt. Vähintään 8 merkkiä, joista yksi numero."
           });
         } else if (exists) {
           return res.send({
             success: false,
             message:
-              "Registration failed. User with this email already registered."
+              "Rekisteröinti epäonnistui. Tällä sähköpostiosoittella on jo rekisteröitynyt käyttäjä."
           });
         }
 
@@ -64,7 +64,7 @@ function register(req, res) {
         return userService
           .addUser(user)
           .then(() =>
-            res.send({ success: true, message: "Registration successful" })
+            res.send({ success: true, message: "Rekisteröinti onnistui" })
           );
       })
   );
