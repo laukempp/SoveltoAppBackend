@@ -7,19 +7,14 @@ const scoreController = require("../controllers/score");
 var io = require("socket.io")();
 /* GET home page. */
 router
-  .get("/api/topics/", topicController.getAllTopics)
-  .get("/api/topics/:id", topicController.getQuestions)
-  .get("/api/questions/quiz", topicController.getStudentQuestions)
+.get('/api/topics/', topicController.getAllTopics)
+.post('/api/topics/', topicController.getQuestions)
+.post('/api/topics/quiz', topicController.getStudentQuestions)
+.post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion)
+.get("/api/scores", scoreController.getScores)
+.get("/api/scores/:nickname", scoreController.getIndividualScore)
+.post("/api/scores", scoreController.addScores);
 
-  .post(
-    "/api/topics/question",
-    authMiddleware.checkAuth,
-    topicController.addQuestion
-  )
-
-  .get("/api/scores", scoreController.getScores)
-  //   .get("/api/scores/:nickname", scoreController.getIndividualScore);
-  .post("/api/scores", scoreController.addScores);
 
 io.on("connection", socket => {
   console.log("connection toimii");
@@ -38,6 +33,7 @@ io.on("connection", socket => {
     console.log("disconnected, reload to reconnect")
   );
 });
+
 io.listen(5001);
 module.exports = router;
 /* console.log('Asiakas lähetti:', viesti) */
