@@ -12,6 +12,7 @@ function getQuestions(req, res){
 };
 
 function addQuestion(req, res) {
+    console.log(req.body.wrong_answer)
   topicservice.createQuestion({
       question: req.body.question,
       correct_answer: req.body.correct_answer,
