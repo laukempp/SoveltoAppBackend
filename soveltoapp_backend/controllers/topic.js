@@ -23,9 +23,10 @@ function addQuestion(req, res) {
 }
 
 function getStudentQuestions(req, res) {
-    topicservice.getStudentQuestions({ where: { id: [2,3] } })
+    topicservice.getStudentQuestions({ where: { id: req.body.idArray} })
     .then(data => res.send(data))
 }
+
 module.exports = {
   getQuestions,
   getAllTopics,
