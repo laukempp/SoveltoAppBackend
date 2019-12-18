@@ -33,9 +33,9 @@ CREATE TABLE questions(
 CREATE TABLE quiz(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
-    question text ARRAY[],
-    correct text ARRAY[],
-    answers text ARRAY[],
+    question text ARRAY[10],
+    correct text ARRAY[10],
+    answers text ARRAY[30],
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -63,15 +63,15 @@ INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
 
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'Is this easy', 'no', '{"yes", "kind of", "not sure"}', 'Tommi', DEFAULT);
 
- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'onko tämä helppoa?', 'ei', '{"joo on helppoa", "ehkä on helppoa", "en tiedä"}', 'Tommi', DEFAULT);
+ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'onko tama helppoa?', 'ei', '{"joo on helppoa", "ehka on helppoa", "en tieda"}', 'Tommi', DEFAULT);
 
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'Who is a good boy?', 'The dog is', '{"Not me", "Possibly me", "Jesus Christ Superstar"}', 'Tommi', DEFAULT);
 
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'How big is the world?', 'Yambalayaa!', '{"Mambo number 5", "Scaramouche, scaramouche!", "Nothing matters to meeeeeee"}', 'Tommi', DEFAULT);
 
- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'In React what is used to pass data to a component from outside?', 'props' '{"setState, render with arguments, PropTypes}', 'Lauri', DEFAULT);
+ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'In React what is used to pass data to a component from outside?', 'props', '{"setState, render with arguments, PropTypes"}', 'Lauri', DEFAULT);
 
- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'What are the two ways that data gets handled in React?', 'state & props' '{"services & components"}', 'Lauri', DEFAULT);
+ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'What are the two ways that data gets handled in React?', 'state & props', '{"services & components"}', 'Lauri', DEFAULT);
 
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'What does CSS stand for?', 'Cascading Style Sheets', '{"Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"}', 'Lauri', DEFAULT );
 
