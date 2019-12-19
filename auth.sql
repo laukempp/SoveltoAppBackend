@@ -111,6 +111,7 @@ INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
 
 
 INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('Scrum', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('Python', DEFAULT);
@@ -131,3 +132,20 @@ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_autho
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'How do you insert a comment in a CSS file?', '/* this is a comment */', '{"\ this is a comment", "// this is a comment", "// this is a comment //"}', 'Lauri', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Which property is used to change the background color?', 'background-color', '{"bgColor", "bgcolor", "color"}', 'Lauri', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'How do you add a background color for all <h1> elements?', 'h1 {background-color:#FFFFFF;}', '{"h1.all {background-color:#FFFFFF;}", "h1.setAll {background-color:#FFFFFF;}", "all.h1 {background-color:#FFFFFF;"}', 'Lauri', DEFAULT );
+
+
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Who is responsible for managing the progress of work during a Sprint?', 'The Development Team', '{"The Product Owner", "The most junior member of the Team", "The Scrum Master"}', 'Lauri', DEFAULT );
+
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Which statement best describes Scrum?', 'A framework within which complex products in complex environments are developed.', '{"A complete methodology that defines how to develop software.", "A cookbook that defines best practices for software development.", "A defined and predictive process that conforms to the principles of Scientific Management."}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'True or False: It is mandatory that the product increment be released to production at the end of each Sprint.', '
+False', '{"True"}', 'Lauri', DEFAULT );
+
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'When does the next Sprint begin?', 'Immediately after the conclusion of the previous Sprint.', '{"
+Immediately following the next Sprint Planning.", "Next Monday.", "When the Product Owner is ready."}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Who is required to attend the Daily Scrum?', 'The Development Team.', '{"The Scrum team.", "The Scrum Master and Product Owner.", "The Development Team and Product Owner."}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Upon what type of process control is Scrum based?', 'Empirical', '{"
+Defined", "Complex", "Hybrid"}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'The three pillars of empirical process control are:', '
+Inspection, Transparency, Adaptation', '{"
+Planning, Inspection, Adaptation", "
+Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );

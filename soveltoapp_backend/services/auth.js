@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Users = require('../models').User;
-const config =  require('../config/config');
+const config = require('../config/config');
 const authenticate = params => {
       return Users.findOne({
           where: {
