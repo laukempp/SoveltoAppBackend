@@ -62,6 +62,13 @@ CREATE TABLE scores(
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );*/
 
+INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('Python', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('Angular', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('AWS', DEFAULT);
+INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
 
 -- INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
 -- INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
