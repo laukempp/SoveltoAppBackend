@@ -12,7 +12,7 @@ const authenticate = params => {
           if (!user)
               throw new Error('Kirjautuminen epäonnistui. Käyttäjää ei löytynyt.');
           if (!bcrypt.compareSync(params.password || '', user.password))
-              throw new Error('Kirjautuminen epäonnistui. Väärä salasana.');
+              throw new Error('Kirjautuminen epäonnistui. Väärä käyttäjänimi tai salasana.');
           const payload = {
               login: user.login,
               id: user.id,
