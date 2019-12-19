@@ -62,14 +62,6 @@ CREATE TABLE scores(
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );*/
 
--- Tulokset -taulu
-CREATE TABLE scores(
-    id SERIAL PRIMARY KEY,
-    nickname text NOT NULL,
-    score INTEGER ARRAY[15],
-    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
