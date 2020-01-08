@@ -30,6 +30,11 @@ io.on("connection", socket => {
     socket.broadcast.emit("eventMessageStudent", eventBoolean);
   });
 
+  socket.on("submitClick", ev => {
+    console.log("student has submitted quiz to db");
+
+    socket.broadcast.emit("renderScore");
+  })
   socket.on("disconnect", client =>
     console.log("disconnected, reload to reconnect")
   );
