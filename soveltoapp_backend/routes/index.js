@@ -8,14 +8,17 @@ var io = require("socket.io")();
 
 /* GET home page. */
 router
-.get('/api/topics/', authMiddleware.checkAuth, topicController.getAllTopics)
-.post('/api/topics/',  authMiddleware.checkAuth, topicController.getQuestions)
-.post('/api/topics/quiz', topicController.getStudentQuestions)
-.post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion)
-.get("/api/scores", authMiddleware.checkAuth, scoreController.getScores)
-.get("/api/scores/:nickname", scoreController.getIndividualScore)
-.post("/api/scores", scoreController.addScores);
-
+  .get("/api/topics/", authMiddleware.checkAuth, topicController.getAllTopics)
+  .post("/api/topics/", authMiddleware.checkAuth, topicController.getQuestions)
+  .post("/api/topics/quiz", topicController.getStudentQuestions)
+  .post(
+    "/api/topics/question",
+    authMiddleware.checkAuth,
+    topicController.addQuestion
+  )
+  .get("/api/scores", scoreController.getScores)
+  .get("/api/scores/:nickname", scoreController.getIndividualScore)
+  .post("/api/scores", scoreController.addScores);
 
 io.on("connection", socket => {
   console.log("connection toimii");
@@ -34,7 +37,7 @@ io.on("connection", socket => {
     console.log("student has submitted quiz to db");
 
     socket.broadcast.emit("renderScore");
-  })
+  });
   socket.on("disconnect", client =>
     console.log("disconnected, reload to reconnect")
   );

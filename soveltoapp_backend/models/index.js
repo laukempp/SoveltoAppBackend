@@ -8,8 +8,7 @@ const User = sequelize.define("user", {
   password: Sequelize.STRING
 });
 const Topics = sequelize.define("topics", {
-  title:
-    Sequelize.STRING
+  title: Sequelize.STRING
 });
 
 const Questions = sequelize.define("questions", {
@@ -30,7 +29,8 @@ Questions.belongsTo(Topics, { foreignKey: "topics_id" });
 
 const Scores = sequelize.define("scores", {
   nickname: Sequelize.STRING,
-  score: Sequelize.INTEGER
+  question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
+  user_answer: Sequelize.ARRAY(Sequelize.TEXT)
 });
 
 module.exports = {
