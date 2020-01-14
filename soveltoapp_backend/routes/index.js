@@ -8,10 +8,10 @@ var io = require("socket.io")();
 
 /* GET home page. */
 router
-.get('/api/topics/', authMiddleware.checkAuth, topicController.getAllTopics)
-.post('/api/topics/',  authMiddleware.checkAuth, topicController.getQuestions)
+.get('/api/topics/',  topicController.getAllTopics)
+.post('/api/topics/',   topicController.getQuestions)
 .post('/api/topics/quiz', topicController.getStudentQuestions)
-.post('/api/topics/question', authMiddleware.checkAuth, topicController.addQuestion)
+.post('/api/topics/question', topicController.addQuestion)
 .get("/api/scores", authMiddleware.checkAuth, scoreController.getScores)
 .get("/api/scores/:nickname", scoreController.getIndividualScore)
 .post("/api/scores", scoreController.addScores);

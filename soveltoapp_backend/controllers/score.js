@@ -12,6 +12,7 @@ function getIndividualScore(req, res) {
 }
 
 function addScores(req, res) {
+  console.log(req.body)
   scoreservice
     .createScore({
       nickname: req.body.nickname,
