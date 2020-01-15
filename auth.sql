@@ -45,6 +45,7 @@ CREATE TABLE scores(
     nickname text NOT NULL,
     question_ids INTEGER ARRAY[20],
     user_answer text ARRAY[20],
+    quiz_id INT references quiz(id)
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
