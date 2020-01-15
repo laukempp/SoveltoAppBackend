@@ -1,16 +1,19 @@
 const Scores = require("../models").Scores;
 const scoreservice = require("../services/score");
 const Questions = require("../models").Questions;
+const { Op } = require('sequelize');
+
+const arrayOfIDs = 1;
 
 function getScores(req, res) {
   scoreservice
-    .getScore({
-      attributes: ["id", "question", "correct_answer", "wrong_answer"],
-      include: [{ model: Scores, Questions, where: { id: 1 } }]
-      // where: { id: question_ids }
-      // include: [{ model: Scores, where: { question_ids: id } }]
-      // include: [{ model: Scores, attributes: ["nickname"] }]
-    })
+    .getScore()
+    /*({
+      //attributes: ["id", "question", "correct_answer", "wrong_answer"],
+      //include: [{ model: Scores, where: {id: {[Op.any]:[1,2,3]}}}]
+      attributes: ["nickname"],
+      include: [{ model: Questions, where: {id: arrayOfIDs}}]
+    })*/
     .then(data => res.send(data));
 }
 
@@ -29,6 +32,7 @@ function getIndividualScore(req, res) {
 }
 
 function addScores(req, res) {
+  console.log(req.body)
   scoreservice
     .createScore({
       nickname: req.body.nickname,
