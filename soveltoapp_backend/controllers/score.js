@@ -36,7 +36,7 @@ function addScores(req, res) {
   scoreservice
     .createScore({
       nickname: req.body.nickname,
-      score: req.body.score
+     /*  score: req.body.score */
     })
     .then(data => res.send(data));
 }
