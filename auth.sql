@@ -43,7 +43,8 @@ CREATE TABLE quiz(
 CREATE TABLE scores(
     id SERIAL PRIMARY KEY,
     nickname text NOT NULL,
-    score INTEGER,
+    question_ids INTEGER ARRAY[20],
+    user_answer text ARRAY[20],
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -148,3 +149,6 @@ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_autho
 Inspection, Transparency, Adaptation', '{"
 Planning, Inspection, Adaptation", "
 Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
+
+INSERT INTO scores(nickname, question_ids, user_answer) VALUES('Nimimerkki', ARRAY[2,5,1], ARRAY['state & props', 'antaa olla', 'testi dataa']);
+INSERT INTO scores(nickname, question_ids) VALUES('Nimimerkki', ARRAY[2,5,1]);
