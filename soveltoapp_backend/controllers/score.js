@@ -6,6 +6,12 @@ function getScores(req, res) {
     .then(data => res.send(data));
 }
 
+function getOneStudent(req, res) {
+  scoreservice.
+  getOneForStudent({attributes: ["question_ids", "user_answer"], where: {nickname: req.body.nickname}})
+  .then(data => res.json(data))
+}
+
 function getIndividualScore(req, res) {
   topicservice
     .getScore({ where: { nickname: req.body.nickname } })
@@ -26,5 +32,6 @@ function addScores(req, res) {
 module.exports = {
   getScores,
   getIndividualScore,
-  addScores
+  addScores,
+  getOneStudent
 };
