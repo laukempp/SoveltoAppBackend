@@ -33,7 +33,7 @@ CREATE TABLE quizzes(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
     question_ids INT ARRAY[10],
-    quiznro INT NOT NULL,
+    /* quiznro INT NOT NULL, */
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
