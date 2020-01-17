@@ -29,12 +29,11 @@ CREATE TABLE questions(
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- Quiz-taulu
-CREATE TABLE quiz(
+CREATE TABLE quizzes(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
-    question text ARRAY[10],
-    correct text ARRAY[10],
-    answers text ARRAY[30],
+    question_ids INT ARRAY[10],
+    quiznro INT NOT NULL,
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -45,7 +44,7 @@ CREATE TABLE scores(
     nickname text NOT NULL,
     question_ids INTEGER ARRAY[20],
     user_answer text ARRAY[20],
-    quiz_id INT references quiz(id)
+    quiz_id INT references quizzes(id),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

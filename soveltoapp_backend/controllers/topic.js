@@ -38,13 +38,24 @@ function addQuestion(req, res) {
 
 function getStudentQuestions(req, res) {
   topicservice
-    .getStudentQuestions({ where: { id: req.body.idArray } })
+    .getStudentQuestions({ where: { id: req.body.question_ids } })
     .then(data => res.send(data));
+}
+
+function addQuiz(req, res) {
+  topicservice
+  .createQuiz({
+    title: req.body.title,
+    question_ids: req.body.question_ids,
+    quiznro: req.body.quiznro
+  })
+  .then(data => res.send(data))
 }
 
 module.exports = {
   getQuestions,
   getAllTopics,
   addQuestion,
-  getStudentQuestions
+  getStudentQuestions,
+  addQuiz
 };
