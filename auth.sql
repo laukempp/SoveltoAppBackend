@@ -45,7 +45,7 @@ CREATE TABLE scores(
     nickname text NOT NULL,
     question_ids INTEGER ARRAY[20],
     user_answer text ARRAY[20],
-    quiz_id INT references quiz(id)
+    quiz_id INT references quiz(id),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -151,5 +151,5 @@ Inspection, Transparency, Adaptation', '{"
 Planning, Inspection, Adaptation", "
 Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
 
-INSERT INTO scores(nickname, question_ids, user_answer) VALUES('Nimimerkki', ARRAY[2,5,1], ARRAY['state & props', 'antaa olla', 'testi dataa']);
-INSERT INTO scores(nickname, question_ids) VALUES('Nimimerkki', ARRAY[2,5,1]);
+INSERT INTO scores(nickname, question_ids, user_answer) VALUES('lauri', ARRAY[7,6,9], ARRAY['In the <head> section', 'Cascading Style Sheets', '<style>']);
+INSERT INTO scores(nickname, question_ids, user_answer) VALUES('Nimimerkki', ARRAY[7,6,9], ARRAY['In the <body> section', 'Cascading Style Sheets', '<script>']);
