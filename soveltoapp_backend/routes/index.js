@@ -10,11 +10,13 @@ var io = require("socket.io")();
 router
   .get("/api/topics/", authMiddleware, topicController.getAllTopics)
   .post("/api/topics/", authMiddleware, topicController.getQuestions)
-  .post("/api/topics/quiz", topicController.getStudentQuestions)
   .post("/api/topics/question", authMiddleware, topicController.addQuestion)
+  .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
+  .post("/api/quiz", topicController.getStudentQuestions)
   .get("/api/scores", scoreController.getScores)
   .get("/api/scores/:nickname", scoreController.getIndividualScore)
-  .post("/api/scores", scoreController.addScores);
+  .post("/api/scores", scoreController.addScores)
+  .post("/api/scores/student", scoreController.getOneStudent);
 
 io.on("connection", socket => {
   console.log("connection toimii");

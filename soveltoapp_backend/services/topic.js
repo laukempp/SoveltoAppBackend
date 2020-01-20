@@ -1,7 +1,10 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
+const Quiz = require("../models").Quiz;
 
 const createQuestion = question => Question.create(question);
+
+const createQuiz = quiz => Quiz.create(quiz)
 
 const getTopics = () =>
   Topics.findAll({ attributes: ["id", "title"] }).then(topic => {
@@ -18,5 +21,5 @@ const getStudentQuestions = (idList) =>
       return question
   });
 
-module.exports = { generateQuiz, createQuestion, getTopics, getStudentQuestions };
+module.exports = { generateQuiz, createQuestion, getTopics, getStudentQuestions, createQuiz };
 

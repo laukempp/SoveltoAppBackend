@@ -7,6 +7,7 @@ const User = sequelize.define("user", {
   login: Sequelize.STRING,
   password: Sequelize.STRING
 });
+
 const Topics = sequelize.define("topics", {
   title: Sequelize.STRING
 });
@@ -31,6 +32,11 @@ const Scores = sequelize.define("scores", {
   user_answer: Sequelize.ARRAY(Sequelize.TEXT)
 });
 
+const Quiz = sequelize.define("quizzes", {
+  title: Sequelize.STRING,
+  question_ids: Sequelize.ARRAY(Sequelize.INTEGER)
+});
+
 Topics.hasMany(Questions, { foreignKey: "topics_id" });
 Questions.belongsTo(Topics, { foreignKey: "topics_id" });
 Questions.hasMany(Scores, {foreignKey: "question_ids"})
@@ -40,5 +46,6 @@ module.exports = {
   User,
   Topics,
   Questions,
-  Scores
+  Scores,
+  Quiz
 };
