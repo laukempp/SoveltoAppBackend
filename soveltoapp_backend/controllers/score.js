@@ -6,9 +6,15 @@ function getScores(req, res) {
     .then(data => res.send(data));
 }
 
+function getAllScores(req, res) {
+  scoreservice
+    .getAllTheScores({attributes: ["question_ids", "user_answer"], where: {quiz_id: req.body.quiz_id}})
+    .then(data => res.send(data));
+}
+
 function getOneStudent(req, res) {
   scoreservice.
-  getOneForStudent({attributes: ["question_ids", "user_answer"], where: {nickname: req.body.nickname}})
+  getOneForStudent({attributes: ["nickname", "question_ids", "user_answer"], where: {nickname: req.body.nickname}})
   .then(data => res.json(data))
 }
 
@@ -33,5 +39,6 @@ module.exports = {
   getScores,
   getIndividualScore,
   addScores,
-  getOneStudent
+  getOneStudent,
+  getAllScores
 };

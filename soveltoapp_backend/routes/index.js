@@ -16,7 +16,8 @@ router
   .get("/api/scores", scoreController.getScores)
   .get("/api/scores/:nickname", scoreController.getIndividualScore)
   .post("/api/scores", scoreController.addScores)
-  .post("/api/scores/student", scoreController.getOneStudent);
+  .post("/api/scores/student", scoreController.getOneStudent)
+  .post("/api/scores/all", scoreController.getAllScores);
 
 io.on("connection", socket => {
   console.log("connection toimii");
