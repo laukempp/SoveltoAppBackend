@@ -33,7 +33,7 @@ CREATE TABLE quizzes(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
     question_ids INT ARRAY[10],
-    quiznro INT NOT NULL,
+    /* quiznro INT NOT NULL, */
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -152,3 +152,4 @@ Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospectiv
 
 INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Piia', ARRAY[1,2,3], ARRAY['yes', 'Possibly me', 'Yambalayaa!'], 7);
 INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Tuutti', ARRAY[1,2,3], ARRAY['no', 'The dog is', 'Mambo number 5'], 7);
+
