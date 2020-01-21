@@ -31,4 +31,17 @@ const getScore = () =>
     return data}
   );
 
-module.exports = { createScore, getScore, getOneForStudent };
+  const getAllTheScores = (object) => 
+  Scores.findAll(object)
+  .then(score => 
+    Questions.findAll({attributes: ["id", "question", "correct_answer", "wrong_answer"], where: {id: score[0].dataValues.question_ids}}) 
+    .then(quizQuestions => {
+    console.log(score[0].dataValues.user_answer)
+    let scoreReturn = score[0].dataValues.user_answer;
+    return {quizQuestions, score}
+  }))
+  .then(data => {
+    return data}
+  );
+
+module.exports = { createScore, getScore, getOneForStudent, getAllTheScores };
