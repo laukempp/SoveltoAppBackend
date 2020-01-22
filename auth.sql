@@ -150,6 +150,13 @@ Inspection, Transparency, Adaptation', '{"
 Planning, Inspection, Adaptation", "
 Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
 
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Piia', ARRAY[1,2,3], ARRAY['yes', 'Possibly me', 'Yambalayaa!'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Tuutti', ARRAY[1,2,3], ARRAY['no', 'The dog is', 'Mambo number 5'], 7);
-
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Piia', ARRAY[1,2,3,5], ARRAY['yes', 'The dog is', 'Yambalayaa!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Tuutti', ARRAY[1,2,3,5], ARRAY['no', 'The dog is', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Kuutti', ARRAY[1,2,3,5], ARRAY['no', 'Not me', 'Mambo number 5', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Buutti', ARRAY[1,2,3,5], ARRAY['yes', 'Possibly me', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Luutti', ARRAY[1,2,3,5], ARRAY['kind of', 'Not me', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Scuutti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Koontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Not me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Toontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Roontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Truukki', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Yambalayaa!', 'state & props'], 7);
