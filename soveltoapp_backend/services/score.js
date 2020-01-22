@@ -31,7 +31,7 @@ const getScore = () =>
     return data}
   );
 
-  const calculateScores = (array) => {
+  const modifyScoreArray = (array) => {
     let fullArray = [];
 
     let simpleArray = array.map(item => {
@@ -75,15 +75,34 @@ const getScore = () =>
     return fullArray
 }
 
+const calculateScore = (arr1, arr2) => {
+
+  let results = []
+  let resultArray = arr1.map(item => item.wrong_answer.concat(item.correct_answer))
+
+  for (let i = 0; i < resultArray.length; i++) {
+      let helpArray = [];
+      for (let e = 0; e < resultArray[i].length; e++) {
+        let result = arr2[i].filter(p => p === resultArray[i][e]).length
+        let correct = arr1[i].correct_answer === resultArray[i][e] ? true : false;
+        console.log(arr1[i].correct_answer)
+        helpArray.push({value: resultArray[i][e], count: result, isCorrect: correct})
+      }
+      results.push({id: arr1[i].id, results: helpArray})
+  }
+  return results
+}
+
   const getAllTheScores = (object) => 
   Scores.findAll(object)
   .then(score => 
     Questions.findAll({attributes: ["id", "question", "correct_answer", "wrong_answer"], where: {id: score[0].dataValues.question_ids}}) 
     .then(quizQuestions => {
     console.log(score[0].dataValues.user_answer)
-    let returnScore = calculateScores(score)
+    let returnScore = modifyScoreArray(score)
+    let result = calculateScore(quizQuestions, returnScore);
     let another = score[1].user_answer[0];
-    return {quizQuestions, returnScore}
+    return {quizQuestions, result}
   }))
   .then(data => {
     return data}
