@@ -88,7 +88,7 @@ const calculateScore = (arr1, arr2) => {
         console.log(arr1[i].correct_answer)
         helpArray.push({value: resultArray[i][e], count: result, isCorrect: correct})
       }
-      results.push({id: arr1[i].id, results: helpArray})
+      results.push({id: arr1[i].id, question: arr1[i].question, results: helpArray})
   }
   return results
 }
@@ -102,7 +102,7 @@ const calculateScore = (arr1, arr2) => {
     let returnScore = modifyScoreArray(score)
     let result = calculateScore(quizQuestions, returnScore);
     let another = score[1].user_answer[0];
-    return {quizQuestions, result}
+    return result
   }))
   .then(data => {
     return data}
