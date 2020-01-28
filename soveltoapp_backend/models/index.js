@@ -30,18 +30,37 @@ const Questions = sequelize.define("questions", {
 const Scores = sequelize.define("scores", {
   nickname: Sequelize.STRING,
   question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
-  user_answer: Sequelize.ARRAY(Sequelize.TEXT)
+  user_answer: Sequelize.ARRAY(Sequelize.TEXT),
+  quiz_badge: {
+    type: Sequelize.VARCHAR(255),
+    references: {
+      model: Quiz,
+      key: "quiz_badge"
+    }
+  }
 });
 
 const Quiz = sequelize.define("quizzes", {
   title: Sequelize.STRING,
-  question_ids: Sequelize.ARRAY(Sequelize.INTEGER)
+  question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
+  quiz_badge: Sequelize.VARCHAR(255),
+  quiz_author: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: "teacher_badge"
+    }
+  }
 });
 
 Topics.hasMany(Questions, { foreignKey: "topics_id" });
 Questions.belongsTo(Topics, { foreignKey: "topics_id" });
-Questions.hasMany(Scores, {foreignKey: "question_ids"})
-Scores.belongsTo(Questions, {foreignKey: "id"});
+Questions.hasMany(Scores, { foreignKey: "question_ids" });
+Scores.belongsTo(Questions, { foreignKey: "id" });
+User.hasMany(Quiz, { foreignKey: "teacher_badge" });
+Quiz.belongsTo(User, { foreignKey: "quiz_author" });
+Quiz.hasMany(Scores, { foreignKey: "quiz_badge" });
+Scores.belongsTo(Quiz, { foreignKey: "quiz_badge" });
 
 module.exports = {
   User,
