@@ -23,6 +23,7 @@ function login(req, res) {
 function register(req, res) {
   var login = req.body.login;
   var pass = req.body.password;
+  
   const validName = login => {
     var re = /\S+@\S+\.\S+/;
     return re.test(login);
@@ -59,7 +60,8 @@ function register(req, res) {
 
         var user = {
           login: req.body.login,
-          password: bcrypt.hashSync(req.body.password, config.saltRounds)
+          password: bcrypt.hashSync(req.body.password, config.saltRounds),
+          teacher_badge = req.body.teacher_badge,
         };
         return userService
           .addUser(user)

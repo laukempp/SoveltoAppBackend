@@ -5,6 +5,7 @@ CREATE TABLE users(
 id SERIAL PRIMARY KEY,
 login VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
+teacher_badge INT NOT NULL UNIQUE,
 "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -33,7 +34,8 @@ CREATE TABLE quizzes(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
     question_ids INT ARRAY[10],
-    /* quiznro INT NOT NULL, */
+    quiz_badge VARCHAR(255) NOT NULL UNIQUE,
+    quiz_author int REFERENCES users(teacher_badge),
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -44,71 +46,10 @@ CREATE TABLE scores(
     nickname text NOT NULL,
     question_ids INTEGER ARRAY[20],
     user_answer text ARRAY[20],
-    quiz_id INT,
+    quiz_badge VARCHAR(255) REFERENCES quizzes(quiz_badge),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
-
--- Quiz-taulu myöhempää käyttöä varten, ei vielä käytössä
-/*CREATE TABLE quiz(
-    id SERIAL PRIMARY KEY,
-    title text NOT NULL,
-    question text ARRAY[],
-    correct text ARRAY[],
-    answers text ARRAY[],
-    quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);*/
-/* 
-INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('Python', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('Angular', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('AWS', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT); */
-
--- INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('Python', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('Angular', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('AWS', DEFAULT);
--- INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
-
-
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'Is this easy', 'no', '{"yes", "kind of", "not sure"}', 'Tommi', DEFAULT);
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'onko tama helppoa?', 'ei', '{"joo on helppoa", "ehka on helppoa", "en tieda"}', 'Tommi', DEFAULT);
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'Who is a good boy?', 'The dog is', '{"Not me", "Possibly me", "Jesus Christ Superstar"}', 'Tommi', DEFAULT);
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'How big is the world?', 'Yambalayaa!', '{"Mambo number 5", "Scaramouche, scaramouche!", "Nothing matters to meeeeeee"}', 'Tommi', DEFAULT);
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'In React what is used to pass data to a component from outside?', 'props', '{"setState, render with arguments, PropTypes"}', 'Lauri', DEFAULT);
-
---  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (1, 'What are the two ways that data gets handled in React?', 'state & props', '{"services & components"}', 'Lauri', DEFAULT);
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'What does CSS stand for?', 'Cascading Style Sheets', '{"Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Where in an HTML document is the correct place to refer to an external style sheet?', 'In the <head> section', '{"In the <body> section", "At the end of the document", "You cant refer to an external style sheet"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Where in an HTML document is the correct place to refer to an external style sheet?', 'In the <head> section', '{"In the <body> section", "At the end of the document", "You cant refer to an external style sheet"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Which HTML tag is used to define an internal style sheet?', '<style>', '{"<script>", "<headStyle>", "<css>"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Which is the correct CSS syntax?', 'body {color: black;}', '{"body:color=black;", "{body;color:black;}", "{body:color=black;}"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'How do you insert a comment in a CSS file?', '/* this is a comment */', '{"\ this is a comment", "// this is a comment", "// this is a comment //"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'Which property is used to change the background color?', 'background-color', '{"bgColor", "bgcolor", "color"}', 'Lauri', DEFAULT );
-
--- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (3, 'How do you add a background color for all <h1> elements?', 'h1 {background-color:#FFFFFF;}', '{"h1.all {background-color:#FFFFFF;}", "h1.setAll {background-color:#FFFFFF;}", "all.h1 {background-color:#FFFFFF;"}', 'Lauri', DEFAULT );
-
 
 
 INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
@@ -150,13 +91,26 @@ Inspection, Transparency, Adaptation', '{"
 Planning, Inspection, Adaptation", "
 Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
 
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Piia', ARRAY[1,2,3,5], ARRAY['yes', 'The dog is', 'Yambalayaa!', 'services & components'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Tuutti', ARRAY[1,2,3,5], ARRAY['no', 'The dog is', 'Scaramouche, scaramouche!', 'services & components'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Kuutti', ARRAY[1,2,3,5], ARRAY['no', 'Not me', 'Mambo number 5', 'services & components'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Buutti', ARRAY[1,2,3,5], ARRAY['yes', 'Possibly me', 'Scaramouche, scaramouche!', 'services & components'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Luutti', ARRAY[1,2,3,5], ARRAY['kind of', 'Not me', 'Scaramouche, scaramouche!', 'services & components'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Scuutti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Koontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Not me', 'Mambo number 5', 'state & props'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Toontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Roontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Mambo number 5', 'state & props'], 7);
-INSERT INTO scores(nickname, question_ids, user_answer, quiz_id) VALUES('Truukki', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Yambalayaa!', 'state & props'], 7);
+INSERT INTO quizzes(title, question_ids, quiz_badge) VALUES('Kiitos 1995', ARRAY[1,2,3,5], 7);
+
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Piia', ARRAY[1,2,3,5], ARRAY['yes', 'The dog is', 'Yambalayaa!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Tuutti', ARRAY[1,2,3,5], ARRAY['no', 'The dog is', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Kuutti', ARRAY[1,2,3,5], ARRAY['no', 'Not me', 'Mambo number 5', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Buutti', ARRAY[1,2,3,5], ARRAY['yes', 'Possibly me', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Luutti', ARRAY[1,2,3,5], ARRAY['kind of', 'Not me', 'Scaramouche, scaramouche!', 'services & components'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Scuutti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Koontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Not me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Toontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Possibly me', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Roontti', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Mambo number 5', 'state & props'], 7);
+INSERT INTO scores(nickname, question_ids, user_answer, quiz_badge) VALUES('Truukki', ARRAY[1,2,3,5], ARRAY['not sure', 'Jesus Christ Superstar', 'Yambalayaa!', 'state & props'], 7);
+
+/* CREATE TABLE quizzes(
+    id SERIAL PRIMARY KEY,
+    title text NOT NULL,
+    question_ids INT ARRAY[10],
+    quiz_badge VARCHAR(255) NOT NULL UNIQUE,
+    quiz_author int REFERENCES users(teacher_badge),
+    quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+); */
