@@ -1,21 +1,25 @@
 const scoreservice = require("../services/score");
 
 function getScores(req, res) {
-  scoreservice
-    .getScore()
-    .then(data => res.send(data));
+  scoreservice.getScore().then(data => res.send(data));
 }
 
 function getAllScores(req, res) {
   scoreservice
-    .getAllTheScores({attributes: ["question_ids", "user_answer"], where: {quiz_id: req.body.quiz_id}})
+    .getAllTheScores({
+      attributes: ["question_ids", "user_answer"],
+      where: { quiz_badge: req.body.quiz_badge }
+    })
     .then(data => res.send(data));
 }
 
 function getOneStudent(req, res) {
-  scoreservice.
-  getOneForStudent({attributes: ["nickname", "question_ids", "user_answer"], where: {nickname: req.body.nickname}})
-  .then(data => res.json(data))
+  scoreservice
+    .getOneForStudent({
+      attributes: ["nickname", "question_ids", "user_answer"],
+      where: { nickname: req.body.nickname }
+    })
+    .then(data => res.json(data));
 }
 
 function getIndividualScore(req, res) {
@@ -25,7 +29,7 @@ function getIndividualScore(req, res) {
 }
 
 function addScores(req, res) {
-  console.log(req.body)
+  console.log(req.body);
   scoreservice
     .createScore({
       nickname: req.body.nickname,
