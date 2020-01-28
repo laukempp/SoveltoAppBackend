@@ -5,7 +5,8 @@ Sequelize = db.Sequelize;
 
 const User = sequelize.define("user", {
   login: Sequelize.STRING,
-  password: Sequelize.STRING
+  password: Sequelize.STRING,
+  teacher_badge: Sequelize.INTEGER
 });
 
 const Topics = sequelize.define("topics", {
