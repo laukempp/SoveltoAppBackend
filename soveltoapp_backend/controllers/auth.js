@@ -6,10 +6,13 @@ const userService = require("../services/user");
 function login(req, res) {
   return authService
     .authenticate(req.body)
-    .then(token => {
+    .then(result => {
+      var token = result.token;
+      var badge = result.teacher_badge
       res.send({
         success: true,
-        data: { token }
+        data: token,
+        badge: badge
       });
     })
     .catch(err => {

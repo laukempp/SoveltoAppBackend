@@ -21,7 +21,9 @@ const authenticate = params => {
           var token = jwt.sign(payload, config.jwtSecret, {
               expiresIn: config.tokenExpireTime
           });
-          return token;
+          var teacher_badge = user.teacher_badge;
+          console.log(teacher_badge)
+          return {token, teacher_badge};
       });
 }
 
