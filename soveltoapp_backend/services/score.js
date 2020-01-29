@@ -1,5 +1,6 @@
 const Scores = require("../models").Scores;
 const Questions = require("../models").Questions;
+const Quizzes = require("../models").Quiz;
 
 //Apufunktiot tulosten laskemiseen
 
@@ -51,10 +52,18 @@ const getScore = () =>
   .then(data => data);
 
   const getAllTheScores = (object) => 
-  Scores.findAll(object)
+  Quizzes.findAll(object).
+  then(result => 
+    Scores.findAll({attributes: ["question_ids", "user_answer"], where: {quiz_badge:result[0].dataValues.quiz_badge}})
+    .then(scoreData => 
+      Questions.findAll({attributes: ["id", "question", "correct_answer", "wrong_answer"], where: {id: scoreData[0].dataValues.question_ids}}) 
+        .then(quizQuestions => calculateScore(quizQuestions, modifyScoreArray(scoreData))))
+  .then(data =>  data))
+
+  /*Scores.findAll(object)
   .then(score => 
     Questions.findAll({attributes: ["id", "question", "correct_answer", "wrong_answer"], where: {id: score[0].dataValues.question_ids}}) 
     .then(quizQuestions => calculateScore(quizQuestions, modifyScoreArray(score))))
-  .then(data =>  data);
+  .then(data =>  data);*/
 
 module.exports = { createScore, getScore, getOneForStudent, getAllTheScores };

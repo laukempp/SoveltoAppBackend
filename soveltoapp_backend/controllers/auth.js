@@ -61,7 +61,7 @@ function register(req, res) {
         var user = {
           login: req.body.login,
           password: bcrypt.hashSync(req.body.password, config.saltRounds),
-          teacher_badge = req.body.teacher_badge,
+          teacher_badge: req.body.teacher_badge
         };
         return userService
           .addUser(user)
