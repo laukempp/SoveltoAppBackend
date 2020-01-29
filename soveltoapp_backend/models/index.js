@@ -27,23 +27,10 @@ const Questions = sequelize.define("questions", {
   q_author: Sequelize.STRING
 });
 
-const Scores = sequelize.define("scores", {
-  nickname: Sequelize.STRING,
-  question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
-  user_answer: Sequelize.ARRAY(Sequelize.TEXT),
-  quiz_badge: {
-    type: Sequelize.VARCHAR(255),
-    references: {
-      model: Quiz,
-      key: "quiz_badge"
-    }
-  }
-});
-
 const Quiz = sequelize.define("quizzes", {
   title: Sequelize.STRING,
   question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
-  quiz_badge: Sequelize.VARCHAR(255),
+  quiz_badge: Sequelize.TEXT,
   quiz_author: {
     type: Sequelize.INTEGER,
     references: {
@@ -52,6 +39,20 @@ const Quiz = sequelize.define("quizzes", {
     }
   }
 });
+
+const Scores = sequelize.define("scores", {
+  nickname: Sequelize.STRING,
+  question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
+  user_answer: Sequelize.ARRAY(Sequelize.TEXT),
+  quiz_badge: {
+    type: Sequelize.TEXT,
+    references: {
+      model: Quiz,
+      key: "quiz_badge"
+    }
+  }
+});
+
 
 Topics.hasMany(Questions, { foreignKey: "topics_id" });
 Questions.belongsTo(Topics, { foreignKey: "topics_id" });

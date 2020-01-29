@@ -7,8 +7,9 @@ function getScores(req, res) {
 function getAllScores(req, res) {
   scoreservice
     .getAllTheScores({
-      attributes: ["question_ids", "user_answer"],
-      where: { quiz_badge: req.body.quiz_badge }
+      attributes: ["quiz_badge"],
+      limit: 1,
+      where: { quiz_author: req.body.teacher_badge }, order: [["createdAt", "DESC"]]
     })
     .then(data => res.send(data));
 }
