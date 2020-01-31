@@ -37,9 +37,10 @@ function addQuestion(req, res) {
 }
 
 function getStudentQuestions(req, res) {
+  console.log(req.body.quiz_author)
   topicservice
-    .getStudentQuestions({ where: { id: req.body.question_ids } })
-    .then(data => res.send(data));
+    .getStudentQuestions({ attributes: ["question_ids"], where: { quiz_author: req.body.quiz_author }, order: [["createdAt", "DESC"]] })
+      .then(data => res.send(data));
 }
 
 function addQuiz(req, res) {
@@ -47,7 +48,8 @@ function addQuiz(req, res) {
   .createQuiz({
     title: req.body.title,
     question_ids: req.body.question_ids,
-    quiznro: req.body.quiznro
+    quiz_badge: req.body.quiz_badge,
+    quiz_author: req.body.quiz_author
   })
   .then(data => res.send(data))
 }
