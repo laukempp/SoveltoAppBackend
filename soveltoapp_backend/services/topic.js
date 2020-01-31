@@ -16,10 +16,13 @@ const generateQuiz = (object) =>
     return question;
   });
 
-const getStudentQuestions = (idList) =>
-  Question.findAll(idList).then(question => {
+const getStudentQuestions = (object) =>
+  Quiz.findAll(object)
+  .then(result => Question.findAll({where: {id: result[0].dataValues.question_ids}})
+    .then(question => {
       return question
-  });
+  })
+  .then(question => question));
 
 module.exports = { generateQuiz, createQuestion, getTopics, getStudentQuestions, createQuiz };
 
