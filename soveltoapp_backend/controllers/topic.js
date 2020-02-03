@@ -1,8 +1,25 @@
+const Op = require('Sequelize').Op
 const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
 
+let condition = (string) => {
+  if (string.quiz_author) {
+    return ({ attributes: ["question_ids"], where: 
+      {quiz_author: string.quiz_author}, order: [["createdAt", "DESC"]]})
+  } else if (string.quiz_badge) {
+    return ({attributes: ["question_ids"], where: {quiz_badge: string.quiz_badge}, order: [["createdAt", "DESC"]] })
+  }
+}
+
 function getAllTopics(req, res) {
-  topicservice.getTopics().then(data => res.send(data));
+  topicservice.getTopics().then(data => res.send(data))
+  .catch(err => {
+    console.log("virheviesti: " + err.message)
+    res.send({
+      success: false,
+      message: err.message
+    });
+  });
 }
 
 function getQuestions(req, res) {
@@ -20,7 +37,14 @@ function getQuestions(req, res) {
       where: { topics_id: req.body.topics_id },
       include: [{ model: Topics, attributes: ["title"] }]
     })
-    .then(data => res.send(data));
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("virheviesti: " + err.message)
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
 }
 
 function addQuestion(req, res) {
@@ -33,14 +57,28 @@ function addQuestion(req, res) {
       topics_id: req.body.topics_id,
       q_author: req.body.q_author
     })
-    .then(data => res.send(data));
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("virheviesti: " + err.message)
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
 }
 
 function getStudentQuestions(req, res) {
   console.log(req.body.quiz_author)
   topicservice
-    .getStudentQuestions({ attributes: ["question_ids"], where: { quiz_author: req.body.quiz_author }, order: [["createdAt", "DESC"]] })
-      .then(data => res.send(data));
+    .getStudentQuestions(condition(req.body))
+      .then(data => res.send(data))
+      .catch(err => {
+        console.log("virheviesti: " + err.message)
+        res.send({
+          success: false,
+          message: err.message
+        });
+      });
 }
 
 function addQuiz(req, res) {
@@ -52,6 +90,13 @@ function addQuiz(req, res) {
     quiz_author: req.body.quiz_author
   })
   .then(data => res.send(data))
+  .catch(err => {
+    console.log("virheviesti: " + err.message)
+    res.send({
+      success: false,
+      message: err.message
+    });
+  });
 }
 
 module.exports = {
