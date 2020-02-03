@@ -2,6 +2,8 @@ const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
 
+
+
 const createQuestion = question => Question.create(question);
 
 const createQuiz = quiz => Quiz.create(quiz)
