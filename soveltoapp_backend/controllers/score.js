@@ -18,7 +18,7 @@ function getOneStudent(req, res) {
   scoreservice
     .getOneForStudent({
       attributes: ["nickname", "question_ids", "user_answer"],
-      where: { nickname: req.body.nickname }
+      where: {result_tag: req.body.result_tag}
     })
     .then(data => res.json(data));
 }
@@ -35,7 +35,9 @@ function addScores(req, res) {
     .createScore({
       nickname: req.body.nickname,
       question_ids: req.body.question_ids,
-      user_answer: req.body.user_answer
+      user_answer: req.body.user_answer,
+      result_tag: req.body.result_tag,
+      quiz_badge: req.body.quiz_badge
     })
     .then(data => res.send(data));
 }
