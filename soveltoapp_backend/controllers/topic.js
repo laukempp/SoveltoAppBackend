@@ -5,9 +5,9 @@ const topicservice = require("../services/topic");
 let condition = (string) => {
   if (string.quiz_author) {
     return ({ attributes: ["question_ids"], where: 
-      {quiz_author: string.quiz_author}, order: [["createdAt", "DESC"]]})
+      {quiz_author: string.quiz_author}, order: [["createdAt", "DESC"]], limit: 1})
   } else if (string.quiz_badge) {
-    return ({attributes: ["question_ids"], where: {quiz_badge: string.quiz_badge}, order: [["createdAt", "DESC"]] })
+    return ({attributes: ["question_ids"], where: {quiz_badge: string.quiz_badge}, order: [["createdAt", "DESC"]], limit: 1 })
   }
 }
 

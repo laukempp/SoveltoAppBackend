@@ -79,18 +79,12 @@ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_autho
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Who is responsible for managing the progress of work during a Sprint?', 'The Development Team', '{"The Product Owner", "The most junior member of the Team", "The Scrum Master"}', 'Lauri', DEFAULT );
 
 
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'True or False: It is mandatory that the product increment be released to production at the end of each Sprint.', '
-False', '{"True"}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'True or False: It is mandatory that the product increment be released to production at the end of each Sprint.', 'False', '{"True"}', 'Lauri', DEFAULT );
 
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'When does the next Sprint begin?', 'Immediately after the conclusion of the previous Sprint.', '{"
-Immediately following the next Sprint Planning.", "Next Monday.", "When the Product Owner is ready."}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'When does the next Sprint begin?', 'Immediately after the conclusion of the previous Sprint.', '{"Immediately following the next Sprint Planning.", "Next Monday.", "When the Product Owner is ready."}', 'Lauri', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Who is required to attend the Daily Scrum?', 'The Development Team.', '{"The Scrum team.", "The Scrum Master and Product Owner.", "The Development Team and Product Owner."}', 'Lauri', DEFAULT );
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Upon what type of process control is Scrum based?', 'Empirical', '{"
-Defined", "Complex", "Hybrid"}', 'Lauri', DEFAULT );
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'The three pillars of empirical process control are:', '
-Inspection, Transparency, Adaptation', '{"
-Planning, Inspection, Adaptation", "
-Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'Upon what type of process control is Scrum based?', 'Empirical', '{"Defined", "Complex", "Hybrid"}', 'Lauri', DEFAULT );
+INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_author, q_posttime) VALUES (2, 'The three pillars of empirical process control are:', 'Inspection, Transparency, Adaptation', '{"Planning, Inspection, Adaptation", "Transparency, Eliminating Waste, Kaizen", "Planning, Demonstration, Retrospective"}', 'Lauri', DEFAULT );
 
 INSERT INTO quizzes(title, question_ids, quiz_badge) VALUES('Kiitos 1995', ARRAY[1,2,3,5], 7);
 
