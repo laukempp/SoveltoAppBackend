@@ -50,7 +50,8 @@ const Scores = sequelize.define("scores", {
       model: Quiz,
       key: "quiz_badge"
     }
-  }
+  },
+  result_tag: Sequelize.INTEGER
 });
 
 
