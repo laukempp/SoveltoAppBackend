@@ -65,9 +65,11 @@ const getOneForStudent = object =>
       Questions.findAll({
         attributes: ["id", "question", "correct_answer", "wrong_answer"],
         where: { id: score[0].dataValues.question_ids }
-      }).then(quizQuestions =>
-        calculateScore(quizQuestions, modifyScoreArray(score))
-      )
+      }).then(quizQuestions =>{
+        console.log(score[0].dataValues.question_ids)
+        console.log(quizQuestions)
+        return calculateScore(quizQuestions, modifyScoreArray(score))
+      })
     )
     .then(data => data);
 

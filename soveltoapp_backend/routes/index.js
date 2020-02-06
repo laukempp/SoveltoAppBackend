@@ -15,7 +15,7 @@ router
   .post("/api/quiz", topicController.getStudentQuestions)
 
 io.on("connection", socket => {
-  console.log("connection toimii");
+  //console.log("connection toimii");
   var quizUrl = `/student/quiz/`;
 
   socket.on("eventClick", () => {
@@ -32,9 +32,9 @@ io.on("connection", socket => {
 
     socket.broadcast.emit("renderScore");
   });
-  socket.on("disconnect", client =>
-    console.log("disconnected, reload to reconnect")
-  );
+  /*socket.on("disconnect", client =>
+    //console.log("disconnected, reload to reconnect")
+  );*/
 });
 
 io.listen(5001);
