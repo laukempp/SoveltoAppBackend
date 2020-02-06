@@ -26,7 +26,7 @@ const calculateScore = (arr1, arr2) => {
     for (let e = 0; e < resultArray[i].length; e++) {
       let result = arr2[i].filter(p => p === resultArray[i][e]).length;
       let correct = arr1[i].correct_answer === resultArray[i][e] ? true : false;
-      console.log(arr1[i].correct_answer);
+
       helpArray.push({
         value: resultArray[i][e],
         count: result,
