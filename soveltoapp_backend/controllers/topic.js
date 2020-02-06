@@ -2,14 +2,14 @@ const Op = require('Sequelize').Op
 const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
 
-let condition = (string) => {
+/*let condition = (string) => {
   if (string.quiz_author) {
-    return ({ attributes: ["question_ids"], where: 
+    return ({ attributes: ["question_ids", "title"], where: 
       {quiz_author: string.quiz_author}, order: [["createdAt", "DESC"]], limit: 1})
   } else if (string.quiz_badge) {
-    return ({attributes: ["question_ids"], where: {quiz_badge: string.quiz_badge}, order: [["createdAt", "DESC"]], limit: 1 })
+    return ({attributes: ["question_ids", "title"], where: {quiz_badge: string.quiz_badge}, order: [["createdAt", "DESC"]], limit: 1 })
   }
-}
+}*/
 
 function getAllTopics(req, res) {
   topicservice.getTopics().then(data => res.send(data))
@@ -70,7 +70,7 @@ function addQuestion(req, res) {
 function getStudentQuestions(req, res) {
   console.log(req.body.quiz_author)
   topicservice
-    .getStudentQuestions(condition(req.body))
+    .getStudentQuestions({attributes: ["question_ids", "title"], where: {quiz_badge: req.body.badge}, order: [["createdAt", "DESC"]], limit: 1 })
       .then(data => res.send(data))
       .catch(err => {
         console.log("virheviesti: " + err.message)
