@@ -22,7 +22,6 @@ const getStudentQuestions = (object) =>
   Quiz.findAll(object)
   .then(result => Question.findAll({where: {id: result[0].dataValues.question_ids}})
     .then(question => {
-      console.log(result)
       return {question, result}
   })
   .then(question => question));
