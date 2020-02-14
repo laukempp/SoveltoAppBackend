@@ -22,7 +22,7 @@ describe('Authentication tests', ()=> {
         const url = "/register";
         return request(app)
         .post(url)
-        .send({login: "testing@testing.com",password: "test1234" })
+        .send({login: "testing@testing.com",password: "test1234", teacher_badge: 88888 })
         .then(response => {
             expect(response.statusCode).toBe(200)
             expect(response.body.success).toBe(false);
@@ -63,7 +63,7 @@ describe('Validation tests', () => {
         .post(url)
         .send({login: "ilman 234miumau", password: "testi123"})
         .then(response => {
-            expect(response.body.message).toMatch("Registration failed. Use your email for registeration.")
+            expect(response.body.message).toMatch("Rekisteröinti epäonnistui. Käytä sähköpostiosoitettasi")
             
         })
     })

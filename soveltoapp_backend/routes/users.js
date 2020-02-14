@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 module.exports.set = app => {
   app.post("/login", authController.login);
   app.post("/register", authController.register);
+  app.post("/teacher", authController.verifyTeacher)
 };
 
 /*.exports = router;*/

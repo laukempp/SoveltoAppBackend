@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const authService = require("../services/auth");
 const userService = require("../services/user");
+
 function login(req, res) {
   return authService
     .authenticate(req.body)
@@ -92,8 +93,28 @@ function logout(req, res) {
       });
     });
 }
+
+function verifyTeacher(req, res) {
+  return userService
+    .verifyUser(req.body.badge)
+    .then(exists => {
+      if(exists) {
+        return res.send({
+          success: true,
+          message: "Opettajanumero on validi"
+        })
+      } else {
+        return res.send({
+          success: false,
+          message: "Opettajaa ei löydy"
+        })
+      }
+    })
+}
+
 module.exports = {
   login,
   register,
-  logout
+  logout,
+  verifyTeacher
 };
