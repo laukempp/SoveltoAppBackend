@@ -24,7 +24,6 @@ CREATE TABLE questions(
     correct_answer text,
     wrong_answer text ARRAY[3],
     topics_id int REFERENCES topics(id),
-    q_author int REFERENCES users(teacher_badge),
     q_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP

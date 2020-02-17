@@ -24,13 +24,7 @@ const Questions = sequelize.define("questions", {
       key: "id"
     }
   },
-  q_author: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: "teacher_badge"
-    }
-  }
+  q_author: Sequelize.INTEGER
 });
 
 const Quiz = sequelize.define("quizzes", {
@@ -68,8 +62,6 @@ User.hasMany(Quiz, { foreignKey: "teacher_badge" });
 Quiz.belongsTo(User, { foreignKey: "quiz_author" });
 Quiz.hasMany(Scores, { foreignKey: "quiz_badge" });
 Scores.belongsTo(Quiz, { foreignKey: "quiz_badge" });
-User.hasMany(Questions, { foreignKey: "teacher_badge" });
-Questions.belongsTo(User, { foreignKey: "q_author" });
 
 module.exports = {
   User,
