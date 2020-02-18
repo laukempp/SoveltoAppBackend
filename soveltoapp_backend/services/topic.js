@@ -2,7 +2,21 @@ const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
 
-const createQuestion = question => Question.create(question);
+const createQuestion = async question =>
+  await Question.create(question)
+    .then(data => {
+      return Question.findAll({
+        attributes: ["id"],
+        where: { q_author: 17714 },
+        order: [["createdAt", "DESC"]],
+        limit: 1
+      }).then(question => {
+        return question[0].dataValues;
+      });
+    })
+    .then(data => {
+      return data;
+    });
 
 const createQuiz = quiz => Quiz.create(quiz);
 
@@ -25,9 +39,9 @@ const getStudentQuestions = object =>
       .then(question => question)
   );
 
-const getQuestions = () => {
-  Question.findAll().then(question => {
-    return question;
+const getQuestions = object => {
+  Question.findAll(object).then(question => {
+    return question[0].dataValues;
   });
 };
 

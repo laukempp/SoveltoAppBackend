@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const topicController = require("../controllers/topic");
 const authMiddleware = require("../middleware/auth");
-const scoreController = require("../controllers/score");
 
 var io = require("socket.io")();
 

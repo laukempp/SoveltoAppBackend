@@ -50,7 +50,7 @@ function getQuestions(req, res) {
 }
 
 function addQuestion(req, res) {
-  console.log(req.body.wrong_answer);
+  console.log(typeof req.body.q_author);
   topicservice
     .createQuestion({
       question: req.body.question,
@@ -59,7 +59,9 @@ function addQuestion(req, res) {
       topics_id: req.body.topics_id,
       q_author: req.body.q_author
     })
-    .then(data => res.send(data))
+    .then(data => {
+      res.send(data);
+    })
     .catch(err => {
       console.log("virheviesti: " + err.message);
       res.send({
