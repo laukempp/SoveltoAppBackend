@@ -50,14 +50,14 @@ function getQuestions(req, res) {
 }
 
 function addQuestion(req, res) {
-  console.log(typeof req.body.q_author);
   topicservice
     .createQuestion({
       question: req.body.question,
       correct_answer: req.body.correct_answer,
       wrong_answer: req.body.wrong_answer,
       topics_id: req.body.topics_id,
-      q_author: req.body.q_author
+      q_author: req.body.q_author,
+      istemporary: req.body.istemporary
     })
     .then(data => {
       res.send(data);
