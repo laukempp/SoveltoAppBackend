@@ -7,7 +7,7 @@ const createQuestion = async question =>
     .then(data => {
       return Question.findAll({
         attributes: ["id"],
-        where: { q_author: 17714 },
+        where: { q_author: question.q_author },
         order: [["createdAt", "DESC"]],
         limit: 1
       }).then(question => {

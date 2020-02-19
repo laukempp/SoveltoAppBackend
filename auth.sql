@@ -24,6 +24,18 @@ CREATE TABLE questions(
     correct_answer text,
     wrong_answer text ARRAY[3],
     topics_id int REFERENCES topics(id),
+    q_author int,
+    q_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Väliaikainen kysymystaulu (käytetään, kun tehdään quiz kysymyksestä tallentamatta kysymystä pysyvästi)
+CREATE TABLE temporaryQuestions(
+    id SERIAL PRIMARY KEY,
+    question text NOT NULL,
+    correct_answer text,
+    wrong_answer text ARRAY[3],
+    topics_id int REFERENCES topics(id),
     q_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
