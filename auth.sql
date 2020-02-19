@@ -47,7 +47,7 @@ CREATE TABLE scores(
     question_ids INTEGER ARRAY[20],
     user_answer text ARRAY[20],
     quiz_badge VARCHAR(255) REFERENCES quizzes(quiz_badge),
-    result_tag INT,
+    result_tag VARCHAR(255),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
