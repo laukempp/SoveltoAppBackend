@@ -27,6 +27,20 @@ const Questions = sequelize.define("questions", {
   q_author: Sequelize.INTEGER
 });
 
+const Temporaryquestions = sequelize.define("temporaryquestions", {
+  question: Sequelize.TEXT,
+  correct_answer: Sequelize.TEXT,
+  wrong_answer: Sequelize.ARRAY(Sequelize.TEXT),
+  topics_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Topics,
+      key: "id"
+    }
+  },
+  q_author: Sequelize.INTEGER
+});
+
 const Quiz = sequelize.define("quizzes", {
   title: Sequelize.STRING,
   question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
@@ -67,6 +81,7 @@ module.exports = {
   User,
   Topics,
   Questions,
+  Temporaryquestions,
   Scores,
   Quiz
 };

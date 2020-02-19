@@ -70,7 +70,28 @@ function addQuestion(req, res) {
       });
     });
 }
-
+/* Tämä luotu alunperin väliaikaisen kysymyksen luontiin
+// function addTemporaryQuestion(req, res) {
+//   topicservice
+//     .createTemporaryQuestion({
+//       question: req.body.question,
+//       correct_answer: req.body.correct_answer,
+//       wrong_answer: req.body.wrong_answer,
+//       topics_id: req.body.topics_id,
+//       q_author: req.body.q_author
+//     })
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       console.log("virheviesti: " + err.message);
+//       res.send({
+//         success: false,
+//         message: err.message
+//       });
+//     });
+// }
+*/
 function getStudentQuestions(req, res) {
   console.log(req.body.quiz_author);
   topicservice
@@ -132,6 +153,7 @@ module.exports = {
   getQuestions,
   getAllTopics,
   addQuestion,
+  // addTemporaryQuestion,
   getStudentQuestions,
   addQuiz,
   getLatestQuestion

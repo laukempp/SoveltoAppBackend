@@ -1,6 +1,7 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
+const Temporaryquestion = require("../models").Temporaryquestions;
 
 const createQuestion = async question =>
   await Question.create(question)
@@ -17,6 +18,19 @@ const createQuestion = async question =>
     .then(data => {
       return data;
     });
+
+// Tämä luotu alunperin väliaikaisen kysymyksen luontiin
+// const createTemporaryQuestion = async question =>
+//   await Temporaryquestion.create(question).then(data => {
+//     return Temporaryquestion.findAll({
+//       attributes: ["id"],
+//       where: { q_author: question.q_author },
+//       order: [["createdAt", "DESC"]],
+//       limit: 1
+//     }).then(question => {
+//       return question[0].dataValues;
+//     });
+//   });
 
 const createQuiz = quiz => Quiz.create(quiz);
 
@@ -48,6 +62,7 @@ const getQuestions = object => {
 module.exports = {
   generateQuiz,
   createQuestion,
+  // createTemporaryQuestion,
   getTopics,
   getStudentQuestions,
   createQuiz,
