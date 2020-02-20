@@ -12,7 +12,8 @@ router
   .post("/api/topics/question", authMiddleware, topicController.addQuestion)
   .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
   .post("/api/quiz", topicController.getStudentQuestions)
-  .post("/api/question", topicController.getLatestQuestion);
+  // .post("/api/question", topicController.getLatestQuestion)
+  .post("/logout", topicController.clearTemporaries);
 // .post("/api/temporaryquestion", topicController.addTemporaryQuestion)
 // .post("/api/temporaryquiz", topicController, addTemporaryQuiz);
 

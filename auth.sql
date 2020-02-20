@@ -47,6 +47,7 @@ CREATE TABLE quizzes(
     id SERIAL PRIMARY KEY,
     title text NOT NULL,
     question_ids INT ARRAY[10],
+    isTemporary boolean,
     quiz_badge VARCHAR(255) NOT NULL UNIQUE,
     quiz_author int REFERENCES users(teacher_badge),
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

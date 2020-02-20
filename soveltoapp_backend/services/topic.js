@@ -1,7 +1,7 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
-const Temporaryquestion = require("../models").Temporaryquestions;
+// const Temporaryquestion = require("../models").Temporaryquestions;
 
 const createQuestion = async question =>
   await Question.create(question)
@@ -73,6 +73,13 @@ const getQuestions = object => {
   });
 };
 
+const clearTemporaryQuizzes = object => {
+  Quiz.destroy(object);
+};
+const clearTemporaryQuestions = object => {
+  Question.destroy(object);
+};
+
 module.exports = {
   generateQuiz,
   createQuestion,
@@ -80,5 +87,7 @@ module.exports = {
   getTopics,
   getStudentQuestions,
   createQuiz,
-  getQuestions
+  getQuestions,
+  clearTemporaryQuizzes,
+  clearTemporaryQuestions
 };

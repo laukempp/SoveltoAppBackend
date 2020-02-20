@@ -50,6 +50,7 @@ function getQuestions(req, res) {
 }
 
 function addQuestion(req, res) {
+  console.log("tallasena tulee", req.body.q_author);
   topicservice
     .createQuestion({
       question: req.body.question,
@@ -117,7 +118,8 @@ function addQuiz(req, res) {
       title: req.body.title,
       question_ids: req.body.question_ids,
       quiz_badge: req.body.quiz_badge,
-      quiz_author: req.body.quiz_author
+      quiz_author: req.body.quiz_author,
+      istemporary: req.body.istemporary
     })
     .then(data => res.send(data))
     .catch(err => {
@@ -129,24 +131,34 @@ function addQuiz(req, res) {
     });
 }
 
-function getLatestQuestion(req, res) {
-  console.log("Ennen parseint" + req.body.badge);
-  // console.log("Parseintattu" + badge);
-  topicservice
-    .getQuestions({
-      attributes: ["id"],
-      where: { q_author: req.body.badge },
-      order: [["createdAt", "DESC"]],
-      limit: 1
-    })
-    .then(data => res.send(data))
-    .catch(err => {
-      console.log("virheviesti: " + err.message);
-      res.send({
-        success: false,
-        message: err.message
-      });
-    });
+// function getLatestQuestion(req, res) {
+//   console.log("Ennen parseint" + req.body.badge);
+//   // console.log("Parseintattu" + badge);
+//   topicservice
+//     .getQuestions({
+//       attributes: ["id"],
+//       where: { q_author: req.body.badge },
+//       order: [["createdAt", "DESC"]],
+//       limit: 1
+//     })
+//     .then(data => res.send(data))
+//     .catch(err => {
+//       console.log("virheviesti: " + err.message);
+//       res.send({
+//         success: false,
+//         message: err.message
+//       });
+//     });
+// }
+
+function clearTemporaries(req) {
+  console.log(req.body.q_author);
+  topicservice.clearTemporaryQuizzes({
+    where: { quiz_author: req.body.badge, istemporary: "t" }
+  });
+  topicservice.clearTemporaryQuestions({
+    where: { q_author: req.body.badge, istemporary: "t" }
+  });
 }
 
 module.exports = {
@@ -156,5 +168,6 @@ module.exports = {
   // addTemporaryQuestion,
   getStudentQuestions,
   addQuiz,
-  getLatestQuestion
+  // getLatestQuestion,
+  clearTemporaries
 };
