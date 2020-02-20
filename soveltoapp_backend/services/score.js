@@ -15,7 +15,7 @@ const modifyScoreArray = array => {
   return fullArray;
 };
 
-const calculateScore = (arr1, arr2) => {
+const calculateScore = (arr1, arr2, arr3) => {
   let results = [];
   let resultArray = arr1.map(item =>
     item.wrong_answer.concat(item.correct_answer)
@@ -36,7 +36,8 @@ const calculateScore = (arr1, arr2) => {
     results.push({
       id: arr1[i].id,
       question: arr1[i].question,
-      results: helpArray
+      results: helpArray,
+      respondents: arr3.length
     });
   }
   return results;
@@ -68,7 +69,7 @@ const getOneForStudent = object =>
       }).then(quizQuestions =>{
         console.log(score[0].dataValues.question_ids)
         console.log(quizQuestions)
-        return calculateScore(quizQuestions, modifyScoreArray(score))
+        return calculateScore(quizQuestions, modifyScoreArray(score), score)
       })
     )
     .then(data => data);
