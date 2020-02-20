@@ -85,7 +85,7 @@ const getAllTheScores = object =>
           attributes: ["id", "question", "correct_answer", "wrong_answer"],
           where: { id: scoreData[0].dataValues.question_ids }
         }).then(quizQuestions =>
-          calculateScore(quizQuestions, modifyScoreArray(scoreData))
+          calculateScore(quizQuestions, modifyScoreArray(scoreData), scoreData)
         ))
       .then(data => data)
   );
