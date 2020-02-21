@@ -71,7 +71,6 @@ module.exports = {
   getTopics,
   getStudentQuestions,
   createQuiz,
-  getQuestions,
   clearTemporaryQuizzes,
   clearTemporaryQuestions
 };
