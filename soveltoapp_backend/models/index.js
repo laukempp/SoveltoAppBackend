@@ -67,7 +67,7 @@ const Scores = sequelize.define("scores", {
       key: "quiz_badge"
     }
   },
-  result_tag: Sequelize.INTEGER
+  result_tag: Sequelize.STRING
 });
 
 Topics.hasMany(Questions, { foreignKey: "topics_id" });

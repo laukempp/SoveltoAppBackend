@@ -11,6 +11,7 @@ const topicservice = require("../services/topic");
   }
 }*/
 
+//Haetaan kaikki aiheet
 function getAllTopics(req, res) {
   topicservice
     .getTopics()
@@ -24,6 +25,7 @@ function getAllTopics(req, res) {
     });
 }
 
+//Haetaan kysymykset - mikäli opettaja on rajannut haettavien rivien määrää, tuloksena on vain se määrä. Oletuslimit on 1000. Tämä on opettajalle haettavat kysymykset tentin luomista varten.
 function getQuestions(req, res) {
   topicservice
     .generateQuiz({
@@ -49,6 +51,7 @@ function getQuestions(req, res) {
     });
 }
 
+//Lisätään kysymysrivi
 function addQuestion(req, res) {
   console.log("tallasena tulee", req.body.q_author);
   topicservice
@@ -71,28 +74,8 @@ function addQuestion(req, res) {
       });
     });
 }
-/* Tämä luotu alunperin väliaikaisen kysymyksen luontiin
-// function addTemporaryQuestion(req, res) {
-//   topicservice
-//     .createTemporaryQuestion({
-//       question: req.body.question,
-//       correct_answer: req.body.correct_answer,
-//       wrong_answer: req.body.wrong_answer,
-//       topics_id: req.body.topics_id,
-//       q_author: req.body.q_author
-//     })
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       console.log("virheviesti: " + err.message);
-//       res.send({
-//         success: false,
-//         message: err.message
-//       });
-//     });
-// }
-*/
+
+//Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä
 function getStudentQuestions(req, res) {
   console.log(req.body.quiz_author);
   topicservice

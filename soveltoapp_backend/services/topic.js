@@ -33,31 +33,21 @@ const createQuestion = async question =>
       return data;
     });
 
-// Tämä luotu alunperin väliaikaisen kysymyksen luontiin
-// const createTemporaryQuestion = async question =>
-//   await Temporaryquestion.create(question).then(data => {
-//     return Temporaryquestion.findAll({
-//       attributes: ["id"],
-//       where: { q_author: question.q_author },
-//       order: [["createdAt", "DESC"]],
-//       limit: 1
-//     }).then(question => {
-//       return question[0].dataValues;
-//     });
-//   });
-
 const createQuiz = quiz => Quiz.create(quiz);
 
+//Haetaan aiheet sequelizen findAll-funktiolla
 const getTopics = () =>
   Topics.findAll({ attributes: ["id", "title"] }).then(topic => {
     return topic;
   });
 
+//Haetaan kysymykset opettajalle quizin luomista varten - tarkemmat määritykset controllerin puolella
 const generateQuiz = object =>
   Question.findAll(object).then(question => {
     return question;
   });
 
+//Haetaan tenttikysymykset opiskelijalle. Ensin suoritetaan haku quizzes-tauluun, mistä haetaan tenttiID:n perusteella kysymysten id-numerot arrayna. Tätä arrayta käytetään hakemaan kysymykset questions-taulusta.
 const getStudentQuestions = object =>
   Quiz.findAll(object).then(result =>
     Question.findAll({ where: { id: result[0].dataValues.question_ids } })
@@ -66,12 +56,6 @@ const getStudentQuestions = object =>
       })
       .then(question => question)
   );
-
-const getQuestions = object => {
-  Question.findAll(object).then(question => {
-    return question[0].dataValues;
-  });
-};
 
 const clearTemporaryQuizzes = object => {
   Quiz.destroy(object);

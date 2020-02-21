@@ -4,6 +4,7 @@ const Quizzes = require("../models").Quiz;
 
 //Apufunktiot tulosten laskemiseen
 
+//Tiedot tulevat tietokannasta per vastaaja - mutta me haluamme lähettää ne fronttiin per kysymys. Tämä funktio muotoilee arrayn uudelleen niin, että saadaan uudeksi arrayksi [[vastaus, vastaus, vastaus], [vastaus, vastaus, vastaus]] -> kokonaisarrayn pituus riippuu kysymysten määrästä ja ala-arrayden pituus vastaajien määrästä. Esimerkkiarrayssa on siis kaksi kysymystä ja kolme vastaajaa. 
 const modifyScoreArray = array => {
   let fullArray = [];
 
@@ -15,7 +16,8 @@ const modifyScoreArray = array => {
   return fullArray;
 };
 
-const calculateScore = (arr1, arr2) => {
+//Tämä array laskee tulokset. Sinne syötetään siis kysymystaulusta otettu array, jossa on merkittynä oikeat vastaukset ja yllä muotoiltu vastaus-array. Funktio laskee, kuinka monta kertaa tietty vastaus on valittu ja työntää tulokset joka for-loopilla omaan pieneen arrayihin. Näin saadaan jokaiselle kysymykselle result-array, jossa on neljä oliota ja kussakin oliossa kerrotaan olion arvo (vastauksen teksti), kuinka monta kertaa kyseinen arvo löytyi yllämuotoillusta vastausarraysta ja onko se oikea vai väärä vastaus. Lisäksi lopussa palautetaan myös itse kysymyksen teksti ja tieto siitä, kuinka monta vastaajaa on tentissä - tämä määritellään alkuperäisen scoretaulusta haetun arrayn perusteella.
+const calculateScore = (arr1, arr2, arr3) => {
   let results = [];
   let resultArray = arr1.map(item =>
     item.wrong_answer.concat(item.correct_answer)
@@ -36,29 +38,19 @@ const calculateScore = (arr1, arr2) => {
     results.push({
       id: arr1[i].id,
       question: arr1[i].question,
-      results: helpArray
+      results: helpArray,
+      respondents: arr3.length
     });
   }
   return results;
 };
 
 //Tietokantafunktiot
+
+//Luodaan tulos
 const createScore = score => Scores.create(score);
 
-const getScore = () =>
-  Scores.findAll({
-    attributes: ["question_ids", "nickname", "user_answer"]
-  })
-    .then(score =>
-      Questions.findAll({
-        attributes: ["id", "question", "correct_answer", "wrong_answer"],
-        where: { id: score[0].dataValues.question_ids }
-      }).then(quizQuestions => {
-        quizQuestions, score;
-      })
-    )
-    .then(data => data);
-
+//Haetaan yhden oppilaan vastausdata. Käytetään samoja ylläolevia apufunktioita kuin mitä käytetään koko vastausdatasetin muokkaukseen. 
 const getOneForStudent = object =>
   Scores.findAll(object)
     .then(score =>
@@ -67,12 +59,13 @@ const getOneForStudent = object =>
         where: { id: score[0].dataValues.question_ids }
       }).then(quizQuestions =>{
         console.log(score[0].dataValues.question_ids)
-        console.log(quizQuestions)
-        return calculateScore(quizQuestions, modifyScoreArray(score))
+        console.log(modifyScoreArray(score))
+        return calculateScore(quizQuestions, modifyScoreArray(score), score)
       })
     )
     .then(data => data);
 
+//Haetaan koko vastausdata opettajanäkymää varten
 const getAllTheScores = object =>
   Quizzes.findAll(object).then(result =>
     Scores.findAll({
@@ -84,15 +77,9 @@ const getAllTheScores = object =>
           attributes: ["id", "question", "correct_answer", "wrong_answer"],
           where: { id: scoreData[0].dataValues.question_ids }
         }).then(quizQuestions =>
-          calculateScore(quizQuestions, modifyScoreArray(scoreData))
+          calculateScore(quizQuestions, modifyScoreArray(scoreData), scoreData)
         ))
       .then(data => data)
   );
 
-/*Scores.findAll(object)
-  .then(score => 
-    Questions.findAll({attributes: ["id", "question", "correct_answer", "wrong_answer"], where: {id: score[0].dataValues.question_ids}}) 
-    .then(quizQuestions => calculateScore(quizQuestions, modifyScoreArray(score))))
-  .then(data =>  data);*/
-
-module.exports = { createScore, getScore, getOneForStudent, getAllTheScores };
+module.exports = { createScore, getOneForStudent, getAllTheScores };

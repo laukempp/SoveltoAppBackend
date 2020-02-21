@@ -1,9 +1,6 @@
 const scoreservice = require("../services/score");
 
-function getScores(req, res) {
-  scoreservice.getScore().then(data => res.send(data));
-}
-
+//Haetaan kaikki tulokset. Tässä määritellään haettavat atribuutit, kuinka monta riviä haetaan taulusta ja annetaan hakurajaus, joka on tässä kohtaa quizin ID
 function getAllScores(req, res) {
   scoreservice
     .getAllTheScores({
@@ -11,24 +8,32 @@ function getAllScores(req, res) {
       limit: 1,
       where: { quiz_author: req.body.teacher_badge }, order: [["createdAt", "DESC"]]
     })
-    .then(data => res.send(data));
+    .then(data => res.send(data))
+    .catch(err => {
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
 }
 
+//Haetaan yhden oppilaan tulokset - haussa käytetään opiskelijan vastaukseen liitettya tagia, joka on uniikki (frontti luo joka kerta uuden oman ja säilöö sitä sessionstoragessa)
 function getOneStudent(req, res) {
   scoreservice
     .getOneForStudent({
       attributes: ["nickname", "question_ids", "user_answer"],
       where: {result_tag: req.body.result_tag, quiz_badge: req.body.quiz_badge}
     })
-    .then(data => res.json(data));
+    .then(data => res.json(data))
+    .catch(err => {
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
 }
 
-function getIndividualScore(req, res) {
-  topicservice
-    .getScore({ where: { nickname: req.body.nickname } })
-    .then(data => res.send(data));
-}
-
+//Lisätään tulokset-tauluun uusi tulosrivi
 function addScores(req, res) {
   console.log(req.body);
   scoreservice
@@ -39,12 +44,16 @@ function addScores(req, res) {
       result_tag: req.body.result_tag,
       quiz_badge: req.body.quiz_badge
     })
-    .then(data => res.send(data));
+    .then(data => res.send(data))
+    .catch(err => {
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
 }
 
 module.exports = {
-  getScores,
-  getIndividualScore,
   addScores,
   getOneStudent,
   getAllScores
