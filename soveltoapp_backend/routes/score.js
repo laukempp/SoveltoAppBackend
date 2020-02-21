@@ -4,8 +4,6 @@ const authMiddleware = require("../middleware/auth");
 const scoreController = require("../controllers/score");
 
 module.exports.set = app => {
-    app.get("/api/scores", scoreController.getScores)
-    app.get("/api/scores/:nickname", scoreController.getIndividualScore)
     app.post("/api/scores", scoreController.addScores)
     app.post("/api/scores/student", scoreController.getOneStudent)
     app.post("/api/scores/all", scoreController.getAllScores);
