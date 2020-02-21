@@ -1,5 +1,6 @@
 const scoreservice = require("../services/score");
 
+const errorMessage = []
 //Haetaan kaikki tulokset. Tässä määritellään haettavat atribuutit, kuinka monta riviä haetaan taulusta ja annetaan hakurajaus, joka on tässä kohtaa quizin ID
 function getAllScores(req, res) {
   scoreservice
@@ -10,10 +11,9 @@ function getAllScores(req, res) {
     })
     .then(data => res.send(data))
     .catch(err => {
-      res.send({
-        success: false,
-        message: err.message
-      });
+      res.send(
+        errorMessage
+      );
     });
 }
 
@@ -26,10 +26,9 @@ function getOneStudent(req, res) {
     })
     .then(data => res.json(data))
     .catch(err => {
-      res.send({
-        success: false,
-        message: err.message
-      });
+      res.send(
+        errorMessage
+      );
     });
 }
 
