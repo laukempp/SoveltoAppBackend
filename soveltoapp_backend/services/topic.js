@@ -1,12 +1,39 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
+// const Temporaryquestion = require("../models").Temporaryquestions;
 
-//Luodaan kysymysrivi. Käytössä sequelizen create-funktio
-const createQuestion = question => Question.create(question);
+const createQuestion = async question =>
+  await Question.create(question)
+    .then(data => {
+      if (question.istemporary) {
+        console.log("ylempi funktio");
+        return Question.findAll({
+          attributes: ["id"],
+          where: { q_author: question.q_author, istemporary: "t" },
+          order: [["createdAt", "DESC"]],
+          limit: 1
+        }).then(question => {
+          return question[0].dataValues;
+        });
+      } else {
+        console.log("alempi funktio");
+        return Question.findAll({
+          attributes: ["id"],
+          where: { q_author: question.q_author },
+          order: [["createdAt", "DESC"]],
+          limit: 1
+        }).then(question => {
+          return question[0].dataValues;
+        });
+      }
+    })
+    .then(data => {
+      console.log(data);
+      return data;
+    });
 
-//Luodaan uusi quiz-rivi sequelizen create-funktiolla
-const createQuiz = quiz => Quiz.create(quiz)
+const createQuiz = quiz => Quiz.create(quiz);
 
 //Haetaan aiheet sequelizen findAll-funktiolla
 const getTopics = () =>
@@ -15,19 +42,36 @@ const getTopics = () =>
   });
 
 //Haetaan kysymykset opettajalle quizin luomista varten - tarkemmat määritykset controllerin puolella
-const generateQuiz = (object) =>
+const generateQuiz = object =>
   Question.findAll(object).then(question => {
     return question;
   });
 
 //Haetaan tenttikysymykset opiskelijalle. Ensin suoritetaan haku quizzes-tauluun, mistä haetaan tenttiID:n perusteella kysymysten id-numerot arrayna. Tätä arrayta käytetään hakemaan kysymykset questions-taulusta.
-const getStudentQuestions = (object) =>
-  Quiz.findAll(object)
-  .then(result => Question.findAll({where: {id: result[0].dataValues.question_ids}})
-    .then(question => {
-      return {question, result}
-  })
-  .then(question => question));
+const getStudentQuestions = object =>
+  Quiz.findAll(object).then(result =>
+    Question.findAll({ where: { id: result[0].dataValues.question_ids } })
+      .then(question => {
+        return { question, result };
+      })
+      .then(question => question)
+  );
 
-module.exports = { generateQuiz, createQuestion, getTopics, getStudentQuestions, createQuiz };
+const clearTemporaryQuizzes = object => {
+  Quiz.destroy(object);
+};
+const clearTemporaryQuestions = object => {
+  Question.destroy(object);
+};
 
+module.exports = {
+  generateQuiz,
+  createQuestion,
+  // createTemporaryQuestion,
+  getTopics,
+  getStudentQuestions,
+  createQuiz,
+  getQuestions,
+  clearTemporaryQuizzes,
+  clearTemporaryQuestions
+};

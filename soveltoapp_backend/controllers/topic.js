@@ -1,4 +1,4 @@
-const Op = require('Sequelize').Op
+const Op = require("Sequelize").Op;
 const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
 
@@ -11,22 +11,18 @@ const topicservice = require("../services/topic");
   }
 }*/
 
-//Haetaan kaikki aiheet 
+//Haetaan kaikki aiheet
 function getAllTopics(req, res) {
-  topicservice.getTopics().then(data => res.send(data))
-  .catch(err => {
-    console.log("virheviesti: " + err.message)
-    res.send({
-      success: false,
-      message: err.message
+  topicservice
+    .getTopics()
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("virheviesti: " + err.message);
+      res.send({
+        success: false,
+        message: err.message
+      });
     });
-  })
-  .catch(err => {
-    res.send({
-      success: false,
-      message: err.message
-    });
-  });
 }
 
 //Haetaan kysymykset - mikäli opettaja on rajannut haettavien rivien määrää, tuloksena on vain se määrä. Oletuslimit on 1000. Tämä on opettajalle haettavat kysymykset tentin luomista varten.
@@ -47,7 +43,7 @@ function getQuestions(req, res) {
     })
     .then(data => res.send(data))
     .catch(err => {
-      console.log("virheviesti: " + err.message)
+      console.log("virheviesti: " + err.message);
       res.send({
         success: false,
         message: err.message
@@ -57,18 +53,21 @@ function getQuestions(req, res) {
 
 //Lisätään kysymysrivi
 function addQuestion(req, res) {
-  console.log(req.body.wrong_answer);
+  console.log("tallasena tulee", req.body.q_author);
   topicservice
     .createQuestion({
       question: req.body.question,
       correct_answer: req.body.correct_answer,
       wrong_answer: req.body.wrong_answer,
       topics_id: req.body.topics_id,
-      q_author: req.body.q_author
+      q_author: req.body.q_author,
+      istemporary: req.body.istemporary
     })
-    .then(data => res.send(data))
+    .then(data => {
+      res.send(data);
+    })
     .catch(err => {
-      console.log("virheviesti: " + err.message)
+      console.log("virheviesti: " + err.message);
       res.send({
         success: false,
         message: err.message
@@ -78,34 +77,70 @@ function addQuestion(req, res) {
 
 //Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä
 function getStudentQuestions(req, res) {
-  console.log(req.body.quiz_author)
+  console.log(req.body.quiz_author);
   topicservice
-    .getStudentQuestions({attributes: ["question_ids", "title"], where: {quiz_badge: req.body.badge}, order: [["createdAt", "DESC"]], limit: 1 })
-      .then(data => res.send(data))
-      .catch(err => {
-        console.log("virheviesti: " + err.message)
-        res.send({
-          success: false,
-          message: err.message
-        });
+    .getStudentQuestions({
+      attributes: ["question_ids", "title"],
+      where: { quiz_badge: req.body.badge },
+      order: [["createdAt", "DESC"]],
+      limit: 1
+    })
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("virheviesti: " + err.message);
+      res.send({
+        success: false,
+        message: err.message
       });
+    });
 }
 
 function addQuiz(req, res) {
   topicservice
-  .createQuiz({
-    title: req.body.title,
-    question_ids: req.body.question_ids,
-    quiz_badge: req.body.quiz_badge,
-    quiz_author: req.body.quiz_author
-  })
-  .then(data => res.send(data))
-  .catch(err => {
-    console.log("virheviesti: " + err.message)
-    res.send({
-      success: false,
-      message: err.message
+    .createQuiz({
+      title: req.body.title,
+      question_ids: req.body.question_ids,
+      quiz_badge: req.body.quiz_badge,
+      quiz_author: req.body.quiz_author,
+      istemporary: req.body.istemporary
+    })
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("virheviesti: " + err.message);
+      res.send({
+        success: false,
+        message: err.message
+      });
     });
+}
+
+// function getLatestQuestion(req, res) {
+//   console.log("Ennen parseint" + req.body.badge);
+//   // console.log("Parseintattu" + badge);
+//   topicservice
+//     .getQuestions({
+//       attributes: ["id"],
+//       where: { q_author: req.body.badge },
+//       order: [["createdAt", "DESC"]],
+//       limit: 1
+//     })
+//     .then(data => res.send(data))
+//     .catch(err => {
+//       console.log("virheviesti: " + err.message);
+//       res.send({
+//         success: false,
+//         message: err.message
+//       });
+//     });
+// }
+
+function clearTemporaries(req) {
+  console.log(req.body.q_author);
+  topicservice.clearTemporaryQuizzes({
+    where: { quiz_author: req.body.badge, istemporary: "t" }
+  });
+  topicservice.clearTemporaryQuestions({
+    where: { q_author: req.body.badge, istemporary: "t" }
   });
 }
 
@@ -113,6 +148,9 @@ module.exports = {
   getQuestions,
   getAllTopics,
   addQuestion,
+  // addTemporaryQuestion,
   getStudentQuestions,
-  addQuiz
+  addQuiz,
+  // getLatestQuestion,
+  clearTemporaries
 };

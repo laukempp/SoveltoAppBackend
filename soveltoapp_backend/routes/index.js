@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const topicController = require("../controllers/topic");
 const authMiddleware = require("../middleware/auth");
-const scoreController = require("../controllers/score");
 
 var io = require("socket.io")();
 
@@ -13,6 +12,10 @@ router
   .post("/api/topics/question", authMiddleware, topicController.addQuestion)
   .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
   .post("/api/quiz", topicController.getStudentQuestions)
+  // .post("/api/question", topicController.getLatestQuestion)
+  .post("/logout", topicController.clearTemporaries);
+// .post("/api/temporaryquestion", topicController.addTemporaryQuestion)
+// .post("/api/temporaryquiz", topicController, addTemporaryQuiz);
 
 io.on("connection", socket => {
   //console.log("connection toimii");

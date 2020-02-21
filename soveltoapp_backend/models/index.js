@@ -15,6 +15,7 @@ const Topics = sequelize.define("topics", {
 
 const Questions = sequelize.define("questions", {
   question: Sequelize.TEXT,
+  istemporary: Sequelize.BOOLEAN,
   correct_answer: Sequelize.TEXT,
   wrong_answer: Sequelize.ARRAY(Sequelize.TEXT),
   topics_id: {
@@ -24,12 +25,27 @@ const Questions = sequelize.define("questions", {
       key: "id"
     }
   },
-  q_author: Sequelize.STRING
+  q_author: Sequelize.INTEGER
 });
+// Tämä luotu alunperin väliaikaisen kysymyksen luontiin
+// const Temporaryquestions = sequelize.define("temporaryquestions", {
+//   question: Sequelize.TEXT,
+//   correct_answer: Sequelize.TEXT,
+//   wrong_answer: Sequelize.ARRAY(Sequelize.TEXT),
+//   topics_id: {
+//     type: Sequelize.INTEGER,
+//     references: {
+//       model: Topics,
+//       key: "id"
+//     }
+//   },
+//   q_author: Sequelize.INTEGER
+// });
 
 const Quiz = sequelize.define("quizzes", {
   title: Sequelize.STRING,
   question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
+  istemporary: Sequelize.BOOLEAN,
   quiz_badge: Sequelize.TEXT,
   quiz_author: {
     type: Sequelize.INTEGER,
@@ -54,7 +70,6 @@ const Scores = sequelize.define("scores", {
   result_tag: Sequelize.STRING
 });
 
-
 Topics.hasMany(Questions, { foreignKey: "topics_id" });
 Questions.belongsTo(Topics, { foreignKey: "topics_id" });
 Questions.hasMany(Scores, { foreignKey: "question_ids" });
@@ -68,6 +83,7 @@ module.exports = {
   User,
   Topics,
   Questions,
+  // Temporaryquestions,
   Scores,
   Quiz
 };
