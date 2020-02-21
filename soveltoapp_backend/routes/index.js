@@ -32,8 +32,8 @@ io.on("connection", socket => {
 
   socket.on("submitClick", ev => {
     console.log("student has submitted quiz to db");
-
-    socket.broadcast.emit("renderScore");
+    ev =  1
+    socket.broadcast.emit("renderScore", ev);
   });
   /*socket.on("disconnect", client =>
     //console.log("disconnected, reload to reconnect")
