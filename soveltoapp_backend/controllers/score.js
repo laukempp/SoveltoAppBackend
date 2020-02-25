@@ -1,6 +1,7 @@
 const scoreservice = require("../services/score");
 
 const errorMessage = []
+
 //Haetaan kaikki tulokset. Tässä määritellään haettavat atribuutit, kuinka monta riviä haetaan taulusta ja annetaan hakurajaus, joka on tässä kohtaa quizin ID
 function getAllScores(req, res) {
   scoreservice
