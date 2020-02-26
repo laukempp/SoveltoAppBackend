@@ -48,14 +48,14 @@ const generateQuiz = object =>
   });
 
 //Haetaan tenttikysymykset opiskelijalle. Ensin suoritetaan haku quizzes-tauluun, mistä haetaan tenttiID:n perusteella kysymysten id-numerot arrayna. Tätä arrayta käytetään hakemaan kysymykset questions-taulusta.
-const getStudentQuestions = object =>
-  Quiz.findAll(object).then(result =>
+const getStudentQuestions = object => 
+  Quiz.findAll(object).then(result => 
     Question.findAll({ where: { id: result[0].dataValues.question_ids } })
       .then(question => {
         return { question, result };
       })
       .then(question => question)
-  );
+  )
 
 const clearTemporaryQuizzes = object => {
   Quiz.destroy(object);

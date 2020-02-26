@@ -1,6 +1,7 @@
 const Op = require("Sequelize").Op;
 const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
+const scoreservice = require("../services/score")
 
 /*let condition = (string) => {
   if (string.quiz_author) {
@@ -76,23 +77,57 @@ function addQuestion(req, res) {
 }
 
 //Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä
-function getStudentQuestions(req, res) {
-  console.log(req.body.quiz_author);
-  topicservice
+async function getStudentQuestions(req, res) {
+  console.log(req.body)
+  const now = new Date()
+  now.setMinutes(now.getMinutes() - 10)
+
+  await scoreservice
+    .verifyStudentScore(req.body)
+    .then(info => {
+        console.log("pituus", info[0])
+        topicservice
+          .getStudentQuestions({
+              attributes: ["question_ids", "title", "quiz_badge"],
+              where: { quiz_author: req.body.badge, quiz_posttime: {[Op.gte]:now.toISOString()}},
+              order: [["createdAt", "DESC"]],
+              limit: 1
+        })
+        .then(data => {
+          if (info[0]) {
+            console.log('moi')
+            res.send({
+              success: false
+            })
+          } else {
+            console.log('täällä')
+            res.send(data)
+          }
+        })
+        .catch(err => {
+          console.log("virheviesti: " + err.message);
+          res.send({
+            success: false,
+            message: err.message
+          });
+      }
+    )
+    })
+  
+  /*topicservice
     .getStudentQuestions({
-      attributes: ["question_ids", "title"],
-      where: { quiz_badge: req.body.badge },
+      attributes: ["question_ids", "title", "quiz_badge"],
+      where: { quiz_author: req.body.badge, quiz_posttime: {[Op.gte]:now.toISOString()}},
       order: [["createdAt", "DESC"]],
       limit: 1
     })
     .then(data => res.send(data))
     .catch(err => {
-      console.log("virheviesti: " + err.message);
       res.send({
         success: false,
         message: err.message
       });
-    });
+    });*/
 }
 
 function addQuiz(req, res) {
