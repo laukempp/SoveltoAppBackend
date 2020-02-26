@@ -95,6 +95,7 @@ function getStudentQuestions(req, res) {
     });
 }
 
+//Luodaan uusi quiz-olio ja lähetetään se tietokantaan tallennettavaksi
 function addQuiz(req, res) {
   topicservice
     .createQuiz({

@@ -3,6 +3,7 @@ const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
 // const Temporaryquestion = require("../models").Temporaryquestions;
 
+//Luodaan uusi kysymys tietokantaan. Funktio myös suorittaa tietokantahaun luomisen jälkeen ja palauttaa viimeisimmän luodun kysymyksen id:n
 const createQuestion = async question =>
   await Question.create(question)
     .then(data => {
@@ -33,6 +34,7 @@ const createQuestion = async question =>
       return data;
     });
 
+//Luodaan uusi quiz tietokantaan
 const createQuiz = quiz => Quiz.create(quiz);
 
 //Haetaan aiheet sequelizen findAll-funktiolla
@@ -60,6 +62,7 @@ const getStudentQuestions = object =>
 const clearTemporaryQuizzes = object => {
   Quiz.destroy(object);
 };
+
 const clearTemporaryQuestions = object => {
   Question.destroy(object);
 };
