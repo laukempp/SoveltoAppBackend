@@ -6,15 +6,24 @@ const Op = require("Sequelize").Op;
 
 //Tagien parsintafunktio
 const modifyTags = array => {
-  let resultArray = Array.prototype.concat.apply([], array);
+  
   let uniqueTags = [];
-  resultArray.forEach(element => {
-    if (!uniqueTags.includes(element)) {
-      uniqueTags.push(element);
-    }
+  let idNro = 0;
+
+  array.forEach(element => {
+    element.dataValues.q_tags.forEach(item => {
+      if (!uniqueTags.includes(item)) {
+        uniqueTags.push(item);
+      }
+    })
   });
-  console.log("uniqueTags", uniqueTags);
-  console.log("resultArray", resultArray);
+
+  let returnArray = uniqueTags.map(item => {
+    idNro++;
+    return {id:idNro, name:item}
+  })
+  console.log("uniqueTags", returnArray);
+  return returnArray
 };
 
 //Luodaan uusi kysymys tietokantaan. Funktio myös suorittaa tietokantahaun luomisen jälkeen ja palauttaa viimeisimmän luodun kysymyksen id:n
@@ -61,9 +70,7 @@ const getTags = () =>
   Question.findAll({
     where: { q_tags: { [Op.ne]: null } },
     attributes: ["q_tags"]
-  }).then(tags => {
-    console.log("tags", tags[0].dataValues.q_tags), modifyTags(tags);
-  });
+  }).then(tags => modifyTags(tags));
 
 //Haetaan kysymykset opettajalle quizin luomista varten - tarkemmat määritykset controllerin puolella
 const generateQuiz = object =>
