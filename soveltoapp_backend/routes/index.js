@@ -11,6 +11,7 @@ router
   .post("/api/topics/", authMiddleware, topicController.getQuestions)
   .post("/api/topics/question", authMiddleware, topicController.addQuestion)
   .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
+  .get("api/topics/tags", authMiddleware, topicController.getAllTags)
   .post("/api/quiz", topicController.getStudentQuestions)
   // .post("/api/question", topicController.getLatestQuestion)
   .post("/logout", topicController.clearTemporaries);

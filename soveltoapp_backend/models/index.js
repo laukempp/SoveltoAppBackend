@@ -25,6 +25,7 @@ const Questions = sequelize.define("questions", {
       key: "id"
     }
   },
+  q_tags: Sequelize.ARRAY(Sequelize.TEXT),
   q_author: Sequelize.INTEGER
 });
 // Tämä luotu alunperin väliaikaisen kysymyksen luontiin

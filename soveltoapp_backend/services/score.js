@@ -84,7 +84,7 @@ const getAllTheScores = object =>
 
 
 const verifyStudentScore = object => 
-  Scores.findAll({where: {result_tag: object.result_tag, quiz_badge: object.quiz_badge}})
+  Scores.findAll({where: {result_tag: object.result_tag, quiz_badge: object.quiz_badge || ''}})
       
 
 module.exports = { createScore, getOneForStudent, getAllTheScores, verifyStudentScore};

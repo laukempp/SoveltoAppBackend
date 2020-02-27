@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const authService = require("../services/auth");
 const userService = require("../services/user");
 
+//Sisäänkirjautuminen. Tämä funktio juttelee frontin kanssa ja saa tiedon tietokantajutuista services.auth.js -tiedostosta. Jos käyttäjä löytyy, funktio saa tokenin ja opettajatunnuksen, jotka se palauttaa frontille.
 function login(req, res) {
   return authService
     .authenticate(req.body)
@@ -24,6 +25,7 @@ function login(req, res) {
     });
 }
 
+//Rekistetöityminen. Funktio tarkistaa salasanan ja sähköpostiosoitteen pätevyyden ja sitten sen, onko sähköpostiosoitteella jo rekisteröity käyttäjä. Jos kaikki on ok, muodostaa user-olion, jonka lähettää servicen user.js:lle tietokantaan tallennettavaksi. Salasana hashataan tässä kohtaa ennen kuin se lähtee kohti tietokantaa.
 function register(req, res) {
   var login = req.body.login;
   var pass = req.body.password;
@@ -76,6 +78,7 @@ function register(req, res) {
   );
 }
 
+//
 function logout(req, res) {
   return authService
     .authenticate(req.body)
@@ -94,6 +97,7 @@ function logout(req, res) {
     });
 }
 
+//Funktio, joka tarkistaa, onko opettajatunnus olemassa. Hakee siis käyttäjää opettajatunnuksella ja jos ei tule validia vastausta, palauttaa false-viestin frontille
 function verifyTeacher(req, res) {
   return userService
     .verifyUser(req.body.badge)

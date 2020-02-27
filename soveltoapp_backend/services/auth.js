@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Users = require('../models').User;
 const config = require('../config/config');
 
+//Autentikointi. Funktio tarkistaa, löytyykö käyttäjä Users-taulusta. Jos löytyy, funktio luo tokenin ja palauttaa sen frontille yhdessä käyttäjän opettajatunnuksen kanssa. Jos ei löydy, palautetaan virheilmoitus, ettei käyttäjää ole. Jos salasanat eivät täsmää, palautetaan tieto siitä. 
 const authenticate = params => {
       return Users.findOne({
           where: {
