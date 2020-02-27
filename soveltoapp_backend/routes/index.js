@@ -11,7 +11,7 @@ router
   .post("/api/topics/", authMiddleware, topicController.getQuestions)
   .post("/api/topics/question", authMiddleware, topicController.addQuestion)
   .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
-  .get("api/topics/tags", authMiddleware, topicController.getAllTags)
+  .get("/api/topics/tags", authMiddleware, topicController.getAllTags)
   .post("/api/quiz", topicController.getStudentQuestions)
   // .post("/api/question", topicController.getLatestQuestion)
   .post("/logout", topicController.clearTemporaries);
@@ -33,7 +33,7 @@ io.on("connection", socket => {
 
   socket.on("submitClick", ev => {
     console.log("student has submitted quiz to db");
-    ev =  1
+    ev = 1;
     socket.broadcast.emit("renderScore", ev);
   });
   /*socket.on("disconnect", client =>

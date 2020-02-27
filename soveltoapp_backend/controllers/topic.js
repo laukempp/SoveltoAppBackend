@@ -1,7 +1,7 @@
 const Op = require("Sequelize").Op;
 const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
-const scoreservice = require("../services/score")
+const scoreservice = require("../services/score");
 
 //Haetaan kaikki aiheet
 function getAllTopics(req, res) {
@@ -20,7 +20,9 @@ function getAllTopics(req, res) {
 function getAllTags(req, res) {
   topicservice
     .getTags()
-    .then(data => res.send(data))
+    .then(data => {
+      console.log(data), res.send(data);
+    })
     .catch(err => {
       res.send({
         success: false,
@@ -43,7 +45,10 @@ function getQuestions(req, res) {
         "q_tags",
         "q_author"
       ],
-      where: { topics_id: req.body.topics_id /*, q_tags: {[Op.overlap]: req.body.q_tags}*/ },
+      where: {
+        topics_id:
+          req.body.topics_id /*, q_tags: {[Op.overlap]: req.body.q_tags}*/
+      },
       include: [{ model: Topics, attributes: ["title"] }]
     })
     .then(data => res.send(data))
@@ -80,42 +85,41 @@ function addQuestion(req, res) {
 
 //Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä. Tässä siis tarkistetaan ensin, onko oppilaan sessionID:lla ja quizin ID:lla jo tallennettu vastausrivi score-tauluun. Jos on, ei palauteta dataa, koska oppilas on jo kerran vastannut quiziin. Jos ei ole, palautetaan data, mikäli quiz on luotu alle 10 minuuttia sitten JA opettajanumero on oikein.
 function getStudentQuestions(req, res) {
-  
-  return (
-    scoreservice
-      .verifyStudentScore(req.body)
-      .then(exists => {
-        console.log(exists[0])
-        if (exists[0]) {
-          console.log("moi")
-          return res.send({
-            success: false
-          })
-        } 
-        const now = new Date()
-        now.setMinutes(now.getMinutes() - 10)
-        
-        return topicservice
-          .getStudentQuestions({
-              attributes: ["question_ids", "title", "quiz_badge"],
-              where: { quiz_author: req.body.badge, quiz_posttime: {[Op.gte]:now.toISOString()}},
-              order: [["createdAt", "DESC"]],
-              limit: 1
-               })
-          .then(data => {
-            console.log('täällä')
-            res.send(data)
-          })
-      })
-      .catch(err => {
-        res.send({
-          success: false,
-          message: err.message
+  return scoreservice
+    .verifyStudentScore(req.body)
+    .then(exists => {
+      console.log(exists[0]);
+      if (exists[0]) {
+        console.log("moi");
+        return res.send({
+          success: false
         });
-      })
-  );
-}
+      }
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - 10);
 
+      return topicservice
+        .getStudentQuestions({
+          attributes: ["question_ids", "title", "quiz_badge"],
+          where: {
+            quiz_author: req.body.badge,
+            quiz_posttime: { [Op.gte]: now.toISOString() }
+          },
+          order: [["createdAt", "DESC"]],
+          limit: 1
+        })
+        .then(data => {
+          console.log("täällä");
+          res.send(data);
+        });
+    })
+    .catch(err => {
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
+}
 
 //Luodaan uusi quiz-olio ja lähetetään se tietokantaan tallennettavaksi
 function addQuiz(req, res) {

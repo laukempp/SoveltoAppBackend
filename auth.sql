@@ -79,11 +79,11 @@ INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (1, 'Is this easy', 'no', '{"yes", "kind of", "not sure"}', DEFAULT);
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (1, 'Who is a good boy?', 'The dog is', '{"Not me", "Possibly me", "Jesus Christ Superstar"}', DEFAULT);
- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (1, 'How big is the world?', 'Yambalayaa!', '{"Mambo number 5", "Scaramouche, scaramouche!", "Nothing matters to meeeeeee"}', DEFAULT);
- INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (1, 'In React what is used to pass data to a component from outside?', 'props', '{"setState", "render with arguments", "PropTypes"}', DEFAULT);
+ INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (1, '{"javascript", "react"}', 'How big is the world?', 'Yambalayaa!', '{"Mambo number 5", "Scaramouche, scaramouche!", "Nothing matters to meeeeeee"}', DEFAULT);
+ INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (1, '{"react"}', 'In React what is used to pass data to a component from outside?', 'props', '{"setState", "render with arguments", "PropTypes"}', DEFAULT);
  INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (1, 'What are the two ways that data gets handled in React?', 'state & props', '{"services & components"}', DEFAULT);
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (3, 'What does CSS stand for?', 'Cascading Style Sheets', '{"Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"}', DEFAULT );
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (8, 'Where in an HTML document is the correct place to refer to an external style sheet?', 'In the <head> section', '{"In the <body> section", "At the end of the document", "You cant refer to an external style sheet"}', DEFAULT );
+INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (3, '{"stylesheet", "css3"}', 'What does CSS stand for?', 'Cascading Style Sheets', '{"Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"}', DEFAULT );
+INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (8, '{"html5"}', 'Where in an HTML document is the correct place to refer to an external style sheet?', 'In the <head> section', '{"In the <body> section", "At the end of the document", "You cant refer to an external style sheet"}', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (8, 'Where in an HTML document is the correct place to refer to an external style sheet?', 'In the <head> section', '{"In the <body> section", "At the end of the document", "You cant refer to an external style sheet"}', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (8, 'Which HTML tag is used to define an internal style sheet?', '<style>', '{"<script>", "<headStyle>", "<css>"}', DEFAULT );
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (3, 'Which is the correct CSS syntax?', 'body {color: black;}', '{"body:color=black;", "{body;color:black;}", "{body:color=black;}"}', DEFAULT );
@@ -92,7 +92,7 @@ INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_postt
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (3, 'How do you add a background color for all <h1> elements?', 'h1 {background-color:#FFFFFF;}', '{"h1.all {background-color:#FFFFFF;}", "h1.setAll {background-color:#FFFFFF;}", "all.h1 {background-color:#FFFFFF;"}', DEFAULT );
 
 
-INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (2, 'Who is responsible for managing the progress of work during a Sprint?', 'The Development Team', '{"The Product Owner", "The most junior member of the Team", "The Scrum Master"}', DEFAULT );
+INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (2, '{"scrum", "productowner", "sprint", "developmentteam"}', 'Who is responsible for managing the progress of work during a Sprint?', 'The Development Team', '{"The Product Owner", "The most junior member of the Team", "The Scrum Master"}', DEFAULT );
 
 
 INSERT INTO questions(topics_id, question, correct_answer, wrong_answer, q_posttime) VALUES (2, 'True or False: It is mandatory that the product increment be released to production at the end of each Sprint.', 'False', '{"True"}', DEFAULT );

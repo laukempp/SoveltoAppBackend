@@ -1,7 +1,21 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
+const Op = require("Sequelize").Op;
 // const Temporaryquestion = require("../models").Temporaryquestions;
+
+//Tagien parsintafunktio
+const modifyTags = array => {
+  let resultArray = Array.prototype.concat.apply([], array);
+  let uniqueTags = [];
+  resultArray.forEach(element => {
+    if (!uniqueTags.includes(element)) {
+      uniqueTags.push(element);
+    }
+  });
+  console.log("uniqueTags", uniqueTags);
+  console.log("resultArray", resultArray);
+};
 
 //Luodaan uusi kysymys tietokantaan. Funktio myös suorittaa tietokantahaun luomisen jälkeen ja palauttaa viimeisimmän luodun kysymyksen id:n
 const createQuestion = async question =>
@@ -43,9 +57,13 @@ const getTopics = () =>
     return topic;
   });
 
-const getTags = () => {
-  Question.findAll({attributes: ["q_tags"]}).then(tags => tags)
-}
+const getTags = () =>
+  Question.findAll({
+    where: { q_tags: { [Op.ne]: null } },
+    attributes: ["q_tags"]
+  }).then(tags => {
+    console.log("tags", tags[0].dataValues.q_tags), modifyTags(tags);
+  });
 
 //Haetaan kysymykset opettajalle quizin luomista varten - tarkemmat määritykset controllerin puolella
 const generateQuiz = object =>
@@ -54,14 +72,14 @@ const generateQuiz = object =>
   });
 
 //Haetaan tenttikysymykset opiskelijalle. Ensin suoritetaan haku quizzes-tauluun, mistä haetaan tenttiID:n perusteella kysymysten id-numerot arrayna. Tätä arrayta käytetään hakemaan kysymykset questions-taulusta.
-const getStudentQuestions = object => 
-  Quiz.findAll(object).then(result => 
+const getStudentQuestions = object =>
+  Quiz.findAll(object).then(result =>
     Question.findAll({ where: { id: result[0].dataValues.question_ids } })
       .then(question => {
         return { question, result };
       })
       .then(question => question)
-  )
+  );
 
 const clearTemporaryQuizzes = object => {
   Quiz.destroy(object);
