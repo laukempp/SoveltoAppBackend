@@ -43,6 +43,10 @@ const getTopics = () =>
     return topic;
   });
 
+const getTags = () => {
+  Question.findAll({attributes: ["q_tags"]}).then(tags => tags)
+}
+
 //Haetaan kysymykset opettajalle quizin luomista varten - tarkemmat määritykset controllerin puolella
 const generateQuiz = object =>
   Question.findAll(object).then(question => {
@@ -70,6 +74,7 @@ const clearTemporaryQuestions = object => {
 module.exports = {
   generateQuiz,
   createQuestion,
+  getTags,
   // createTemporaryQuestion,
   getTopics,
   getStudentQuestions,
