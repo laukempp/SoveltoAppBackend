@@ -47,7 +47,7 @@ function getQuestions(req, res) {
       ],
       where: {
         topics_id:
-          req.body.topics_id /*, q_tags: {[Op.overlap]: req.body.q_tags}*/
+          req.body.topics_id, q_tags: {[Op.overlap]: req.body.q_tags}
       },
       include: [{ model: Topics, attributes: ["title"] }]
     })
