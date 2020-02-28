@@ -3,6 +3,13 @@ const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
 const scoreservice = require("../services/score");
 
+const condition = object => {
+  if (object.q_tags[0]) {
+    return  {topics_id: object.topics_id, q_tags: {[Op.overlap]: object.q_tags}}
+  } 
+    return {topics_id: object.topics_id}
+}
+
 //Haetaan kaikki aiheet
 function getAllTopics(req, res) {
   topicservice
@@ -20,9 +27,7 @@ function getAllTopics(req, res) {
 function getAllTags(req, res) {
   topicservice
     .getTags()
-    .then(data => {
-      console.log(data), res.send(data);
-    })
+    .then(data => res.send(data))
     .catch(err => {
       res.send({
         success: false,
@@ -33,6 +38,7 @@ function getAllTags(req, res) {
 
 //Haetaan kysymykset - mikäli opettaja on rajannut haettavien rivien määrää, tuloksena on vain se määrä. Oletuslimit on 1000. Tämä on opettajalle haettavat kysymykset tentin luomista varten.
 function getQuestions(req, res) {
+  console.log(req.body)
   topicservice
     .generateQuiz({
       limit: req.body.number,
@@ -45,10 +51,7 @@ function getQuestions(req, res) {
         "q_tags",
         "q_author"
       ],
-      where: {
-        topics_id:
-          req.body.topics_id, q_tags: {[Op.overlap]: req.body.q_tags}
-      },
+      where: condition(req.body),
       include: [{ model: Topics, attributes: ["title"] }]
     })
     .then(data => res.send(data))
@@ -88,9 +91,7 @@ function getStudentQuestions(req, res) {
   return scoreservice
     .verifyStudentScore(req.body)
     .then(exists => {
-      console.log(exists[0]);
       if (exists[0]) {
-        console.log("moi");
         return res.send({
           success: false
         });
@@ -108,10 +109,7 @@ function getStudentQuestions(req, res) {
           order: [["createdAt", "DESC"]],
           limit: 1
         })
-        .then(data => {
-          console.log("täällä");
-          res.send(data);
-        });
+        .then(data => res.send(data));
     })
     .catch(err => {
       res.send({
@@ -141,26 +139,6 @@ function addQuiz(req, res) {
     });
 }
 
-// function getLatestQuestion(req, res) {
-//   console.log("Ennen parseint" + req.body.badge);
-//   // console.log("Parseintattu" + badge);
-//   topicservice
-//     .getQuestions({
-//       attributes: ["id"],
-//       where: { q_author: req.body.badge },
-//       order: [["createdAt", "DESC"]],
-//       limit: 1
-//     })
-//     .then(data => res.send(data))
-//     .catch(err => {
-//       console.log("virheviesti: " + err.message);
-//       res.send({
-//         success: false,
-//         message: err.message
-//       });
-//     });
-// }
-
 function clearTemporaries(req) {
   console.log(req.body.q_author);
   topicservice.clearTemporaryQuizzes({
@@ -176,9 +154,7 @@ module.exports = {
   getAllTopics,
   addQuestion,
   getAllTags,
-  // addTemporaryQuestion,
   getStudentQuestions,
   addQuiz,
-  // getLatestQuestion,
   clearTemporaries
 };
