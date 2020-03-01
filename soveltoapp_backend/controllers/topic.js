@@ -46,8 +46,8 @@ function getQuestions(req, res) {
         "q_author"
       ],
       where: {
-        topics_id:
-          req.body.topics_id, q_tags: {[Op.overlap]: req.body.q_tags}
+        topics_id: req.body.topics_id,
+        q_tags: { [Op.overlap]: req.body.q_tags }
       },
       include: [{ model: Topics, attributes: ["title"] }]
     })
@@ -140,29 +140,8 @@ function addQuiz(req, res) {
       });
     });
 }
-
-// function getLatestQuestion(req, res) {
-//   console.log("Ennen parseint" + req.body.badge);
-//   // console.log("Parseintattu" + badge);
-//   topicservice
-//     .getQuestions({
-//       attributes: ["id"],
-//       where: { q_author: req.body.badge },
-//       order: [["createdAt", "DESC"]],
-//       limit: 1
-//     })
-//     .then(data => res.send(data))
-//     .catch(err => {
-//       console.log("virheviesti: " + err.message);
-//       res.send({
-//         success: false,
-//         message: err.message
-//       });
-//     });
-// }
-
+// Etsitään kaikki "temporary" -merkatut quizit ja kysymykset ja poistetaan ne. Tällä hetkellä väliaikaisena ratkaisuna logoutin yhteydessä
 function clearTemporaries(req) {
-  console.log(req.body.q_author);
   topicservice.clearTemporaryQuizzes({
     where: { quiz_author: req.body.badge, istemporary: "t" }
   });
@@ -176,9 +155,7 @@ module.exports = {
   getAllTopics,
   addQuestion,
   getAllTags,
-  // addTemporaryQuestion,
   getStudentQuestions,
   addQuiz,
-  // getLatestQuestion,
   clearTemporaries
 };

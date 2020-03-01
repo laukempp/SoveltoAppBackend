@@ -6,7 +6,6 @@ const Op = require("Sequelize").Op;
 
 //Tagien parsintafunktio
 const modifyTags = array => {
-  
   let uniqueTags = [];
   let idNro = 0;
 
@@ -15,15 +14,15 @@ const modifyTags = array => {
       if (!uniqueTags.includes(item)) {
         uniqueTags.push(item);
       }
-    })
+    });
   });
 
   let returnArray = uniqueTags.map(item => {
     idNro++;
-    return {id:idNro, name:item}
-  })
+    return { id: idNro, name: item };
+  });
   console.log("uniqueTags", returnArray);
-  return returnArray
+  return returnArray;
 };
 
 //Luodaan uusi kysymys tietokantaan. Funktio myös suorittaa tietokantahaun luomisen jälkeen ja palauttaa viimeisimmän luodun kysymyksen id:n
@@ -31,7 +30,6 @@ const createQuestion = async question =>
   await Question.create(question)
     .then(data => {
       if (question.istemporary) {
-        console.log("ylempi funktio");
         return Question.findAll({
           attributes: ["id"],
           where: { q_author: question.q_author, istemporary: "t" },
@@ -41,7 +39,6 @@ const createQuestion = async question =>
           return question[0].dataValues;
         });
       } else {
-        console.log("alempi funktio");
         return Question.findAll({
           attributes: ["id"],
           where: { q_author: question.q_author },
@@ -88,10 +85,12 @@ const getStudentQuestions = object =>
       .then(question => question)
   );
 
+//Poistetaan "temporary" -merkatut quizit
 const clearTemporaryQuizzes = object => {
   Quiz.destroy(object);
 };
 
+//Poistetaan "temporary" -merkatut kysymykset
 const clearTemporaryQuestions = object => {
   Question.destroy(object);
 };
@@ -100,7 +99,6 @@ module.exports = {
   generateQuiz,
   createQuestion,
   getTags,
-  // createTemporaryQuestion,
   getTopics,
   getStudentQuestions,
   createQuiz,
