@@ -4,9 +4,13 @@ const topicservice = require("../services/topic");
 const scoreservice = require("../services/score");
 
 const condition = object => {
-  if (object.q_tags[0]) {
+  if (object.q_tags[0] && object.topics_id !== 0) {
     return  {topics_id: object.topics_id, q_tags: {[Op.overlap]: object.q_tags}}
-  } 
+  }
+  else if (object.q_tags[0]){
+    return  {q_tags: {[Op.overlap]: object.q_tags}}
+  }
+  else
     return {topics_id: object.topics_id}
 }
 
@@ -52,7 +56,7 @@ function getQuestions(req, res) {
         "q_author"
       ],
       where: condition(req.body),
-      include: [{ model: Topics, attributes: ["title"] }]
+     /*  include: [{ model: Topics, attributes: ["title"] }] */
     })
     .then(data => res.send(data))
     .catch(err => {
