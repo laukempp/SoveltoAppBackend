@@ -55,8 +55,16 @@ function getQuestions(req, res) {
         "q_tags",
         "q_author"
       ],
+<<<<<<< HEAD
       where: condition(req.body),
      /*  include: [{ model: Topics, attributes: ["title"] }] */
+=======
+      where: {
+        topics_id: req.body.topics_id,
+        q_tags: { [Op.overlap]: req.body.q_tags }
+      },
+      include: [{ model: Topics, attributes: ["title"] }]
+>>>>>>> 8ed2dd4e3fb31471f84ca120ca971bc37dc72d3f
     })
     .then(data => res.send(data))
     .catch(err => {
@@ -142,9 +150,12 @@ function addQuiz(req, res) {
       });
     });
 }
+<<<<<<< HEAD
 
+=======
+// Etsitään kaikki "temporary" -merkatut quizit ja kysymykset ja poistetaan ne. Tällä hetkellä väliaikaisena ratkaisuna logoutin yhteydessä
+>>>>>>> 8ed2dd4e3fb31471f84ca120ca971bc37dc72d3f
 function clearTemporaries(req) {
-  console.log(req.body.q_author);
   topicservice.clearTemporaryQuizzes({
     where: { quiz_author: req.body.badge, istemporary: "t" }
   });
