@@ -55,11 +55,7 @@ function getQuestions(req, res) {
         "q_tags",
         "q_author"
       ],
-      where: {
-        topics_id: req.body.topics_id,
-        q_tags: { [Op.overlap]: req.body.q_tags }
-      },
-      include: [{ model: Topics, attributes: ["title"] }]
+      where: condition(req.body)
     })
     .then(data => res.send(data))
     .catch(err => {
