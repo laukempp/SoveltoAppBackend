@@ -153,6 +153,7 @@ const clearTemporaries = () => {
   });
   return;
 };
+setInterval(clearTemporaries, 43200000);
 
 module.exports = {
   getQuestions,
@@ -161,5 +162,4 @@ module.exports = {
   getAllTags,
   getStudentQuestions,
   addQuiz
-  // clearTemporaries
 };

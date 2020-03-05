@@ -13,7 +13,6 @@ router
   .post("/api/topics/quiz", authMiddleware, topicController.addQuiz)
   .get("/api/topics/tags", authMiddleware, topicController.getAllTags)
   .post("/api/quiz", topicController.getStudentQuestions);
-// .post("/logout", topicController.clearTemporaries);
 
 io.on("connection", socket => {
   //console.log("connection toimii");
