@@ -1,8 +1,8 @@
 const Topics = require("../models").Topics;
 const Question = require("../models").Questions;
 const Quiz = require("../models").Quiz;
+const Scores = require("../models").Scores;
 const Op = require("Sequelize").Op;
-// const Temporaryquestion = require("../models").Temporaryquestions;
 
 //Tagien parsintafunktio
 const modifyTags = array => {
@@ -23,6 +23,16 @@ const modifyTags = array => {
   });
   console.log("uniqueTags", returnArray);
   return returnArray;
+};
+
+// Arrayn muodostusfunktio, jota hyödynnetään clearTemporary-funktiossa.
+const modifyArray = array => {
+  let quizBadges = [];
+
+  array.forEach(element => {
+    quizBadges.push(element.dataValues.quiz_badge);
+  });
+  return quizBadges;
 };
 
 //Luodaan uusi kysymys tietokantaan. Funktio myös suorittaa tietokantahaun luomisen jälkeen ja palauttaa viimeisimmän luodun kysymyksen id:n
@@ -85,14 +95,25 @@ const getStudentQuestions = object =>
       .then(question => question)
   );
 
-//Poistetaan "temporary" -merkatut quizit
-const clearTemporaryQuizzes = object => {
-  Quiz.destroy(object);
-};
+// Toteutetaan väliaikaisten rivien poisto.
+const clearTemporary = async object => {
+  let scores = [];
+  await Scores.findAll({ attributes: ["quiz_badge"] }).then(result => {
+    scores = modifyArray(result);
+  });
+  await Question.destroy(object);
+  await Quiz.findAll(object).then(result => {
+    let temporaryQuizzes = modifyArray(result);
 
-//Poistetaan "temporary" -merkatut kysymykset
-const clearTemporaryQuestions = object => {
-  Question.destroy(object);
+    for (var i = 0; i < temporaryQuizzes.length; i++) {
+      for (var j = 0; j < scores.length; j++) {
+        if (temporaryQuizzes[i] === scores[j]) {
+          Scores.destroy({ where: { quiz_badge: scores[j] } });
+        }
+      }
+    }
+  });
+  await Quiz.destroy(object);
 };
 
 module.exports = {
@@ -102,6 +123,5 @@ module.exports = {
   getTopics,
   getStudentQuestions,
   createQuiz,
-  clearTemporaryQuizzes,
-  clearTemporaryQuestions
+  clearTemporary
 };
