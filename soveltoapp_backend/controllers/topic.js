@@ -5,14 +5,14 @@ const scoreservice = require("../services/score");
 
 const condition = object => {
   if (object.q_tags[0] && object.topics_id !== 0) {
-    return  {topics_id: object.topics_id, q_tags: {[Op.overlap]: object.q_tags}}
-  }
-  else if (object.q_tags[0]){
-    return  {q_tags: {[Op.overlap]: object.q_tags}}
-  }
-  else
-    return {topics_id: object.topics_id}
-}
+    return {
+      topics_id: object.topics_id,
+      q_tags: { [Op.overlap]: object.q_tags }
+    };
+  } else if (object.q_tags[0]) {
+    return { q_tags: { [Op.overlap]: object.q_tags } };
+  } else return { topics_id: object.topics_id };
+};
 
 //Haetaan kaikki aiheet
 function getAllTopics(req, res) {
@@ -42,7 +42,7 @@ function getAllTags(req, res) {
 
 //Haetaan kysymykset - mikäli opettaja on rajannut haettavien rivien määrää, tuloksena on vain se määrä. Oletuslimit on 1000. Tämä on opettajalle haettavat kysymykset tentin luomista varten.
 function getQuestions(req, res) {
-  console.log(req.body)
+  console.log(req.body);
   topicservice
     .generateQuiz({
       limit: req.body.number,
@@ -55,11 +55,7 @@ function getQuestions(req, res) {
         "q_tags",
         "q_author"
       ],
-      where: {
-        topics_id: req.body.topics_id,
-        q_tags: { [Op.overlap]: req.body.q_tags }
-      },
-      include: [{ model: Topics, attributes: ["title"] }]
+      where: condition(req.body)
     })
     .then(data => res.send(data))
     .catch(err => {
@@ -145,15 +141,19 @@ function addQuiz(req, res) {
       });
     });
 }
-// Etsitään kaikki "temporary" -merkatut quizit ja kysymykset ja poistetaan ne. Tällä hetkellä väliaikaisena ratkaisuna logoutin yhteydessä
-function clearTemporaries(req) {
-  topicservice.clearTemporaryQuizzes({
-    where: { quiz_author: req.body.badge, istemporary: "t" }
+
+// Väliaikaisten quizien, kysymysten ja tulosten poistofunktio. Poistaa databasesta yli 12 tuntia vanhat "t" merkinnällä olevat rivit.
+const clearTemporaries = () => {
+  const now = new Date();
+  console.log(now);
+  now.setHours(now.getHours() - 12);
+  console.log(now);
+  topicservice.clearTemporary({
+    where: { istemporary: "t", createdAt: { [Op.lte]: now } }
   });
-  topicservice.clearTemporaryQuestions({
-    where: { q_author: req.body.badge, istemporary: "t" }
-  });
-}
+  return;
+};
+setInterval(clearTemporaries, 43200000);
 
 module.exports = {
   getQuestions,
@@ -161,6 +161,5 @@ module.exports = {
   addQuestion,
   getAllTags,
   getStudentQuestions,
-  addQuiz,
-  clearTemporaries
+  addQuiz
 };

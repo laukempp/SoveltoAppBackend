@@ -61,7 +61,7 @@ Topics.hasMany(Questions, { foreignKey: "topics_id" });
 Questions.belongsTo(Topics, { foreignKey: "topics_id" });
 Questions.hasMany(Scores, { foreignKey: "question_ids" });
 Scores.belongsTo(Questions, { foreignKey: "id" });
-User.hasMany(Quiz, { foreignKey: "teacher_badge" });
+User.hasMany(Quiz, { foreignKey: "quiz_author" });
 Quiz.belongsTo(User, { foreignKey: "quiz_author" });
 Quiz.hasMany(Scores, { foreignKey: "quiz_badge" });
 Scores.belongsTo(Quiz, { foreignKey: "quiz_badge" });
