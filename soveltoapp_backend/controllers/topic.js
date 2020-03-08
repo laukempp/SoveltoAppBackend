@@ -4,15 +4,26 @@ const topicservice = require("../services/topic");
 const scoreservice = require("../services/score");
 
 const condition = object => {
-  if (object.q_tags[0] && object.topics_id !== 0) {
-    return {
-      topics_id: object.topics_id,
-      q_tags: { [Op.overlap]: object.q_tags }
-    };
-  } else if (object.q_tags[0]) {
-    return { q_tags: { [Op.overlap]: object.q_tags } };
-  } else return { topics_id: object.topics_id };
+  let searchInput = {}
+
+  if (object.q_tags) {
+    searchInput["q_tags"] = { [Op.overlap]: object.q_tags }
+  }
+  if (object.topics_id !== 0) {
+    searchInput["topics_id"] = object.topics_id
+  }
+  if (object.useBadge) {
+    searchInput["q_author"] = parseInt(object.teacher_badge)
+  }
+  return searchInput
 };
+
+const orderCondition = object => {
+  if (object.number < 1000) {
+    return sequelize.random()
+  } 
+  return [["id", "ASC"]]
+}
 
 //Haetaan kaikki aiheet
 function getAllTopics(req, res) {
@@ -45,6 +56,7 @@ function getQuestions(req, res) {
   console.log(req.body);
   topicservice
     .generateQuiz({
+      order: orderCondition(req.body),
       limit: req.body.number,
       attributes: [
         "id",
@@ -57,7 +69,12 @@ function getQuestions(req, res) {
       ],
       where: condition(req.body)
     })
-    .then(data => res.send(data))
+    .then(data => { 
+      if (!req.body.q_tags && req.body.topics_id === 0) {
+      return res.send({message: "Kysymyksiä ei löytynyt. Muistithan antaa aiheen tai tageja hakuehdoiksi?"})
+    } else if (!data[0]) {
+      return res.send({message: "Kysymyksiä ei löytynyt. Kokeile käyttää vähemmän tageja."})
+    } return res.send(data)})
     .catch(err => {
       res.send({
         success: false,
