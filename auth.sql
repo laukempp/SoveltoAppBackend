@@ -68,6 +68,8 @@ CREATE TABLE scores(
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+/*Käyttäjän salasana on Testi123*/
+INSERT INTO users(login, password, teacher_badge) VALUES('testi@testi.com', '$2y$04$KaSD2fmFDrW0kStfzJ580.8oj.DdfYyP3eOdaeTukoIGW8VUKyAP2', 12345);
 
 INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
 INSERT INTO topics(title, posttime) VALUES('Scrum', DEFAULT);
