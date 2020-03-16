@@ -4,26 +4,26 @@ const topicservice = require("../services/topic");
 const scoreservice = require("../services/score");
 
 const condition = object => {
-  let searchInput = {}
+  let searchInput = {};
 
   if (object.q_tags) {
-    searchInput["q_tags"] = { [Op.overlap]: object.q_tags }
+    searchInput["q_tags"] = { [Op.overlap]: object.q_tags };
   }
   if (object.topics_id !== 0) {
-    searchInput["topics_id"] = object.topics_id
+    searchInput["topics_id"] = object.topics_id;
   }
   if (object.useBadge) {
-    searchInput["q_author"] = parseInt(object.teacher_badge)
+    searchInput["q_author"] = parseInt(object.teacher_badge);
   }
-  return searchInput
+  return searchInput;
 };
 
 const orderCondition = object => {
   if (object.number < 1000) {
-    return sequelize.random()
-  } 
-  return [["id", "ASC"]]
-}
+    return sequelize.random();
+  }
+  return [["id", "ASC"]];
+};
 
 //Haetaan kaikki aiheet
 function getAllTopics(req, res) {
@@ -69,12 +69,19 @@ function getQuestions(req, res) {
       ],
       where: condition(req.body)
     })
-    .then(data => { 
+    .then(data => {
       if (!req.body.q_tags && req.body.topics_id === 0) {
-      return res.send({message: "Kysymyksiä ei löytynyt. Muistithan antaa aiheen tai tageja hakuehdoiksi?"})
-    } else if (!data[0]) {
-      return res.send({message: "Kysymyksiä ei löytynyt. Kokeile käyttää vähemmän tageja."})
-    } return res.send(data)})
+        return res.send({
+          message:
+            "Kysymyksiä ei löytynyt. Muistithan antaa aiheen tai tageja hakuehdoiksi?"
+        });
+      } else if (!data[0]) {
+        return res.send({
+          message: "Kysymyksiä ei löytynyt. Kokeile käyttää vähemmän tageja."
+        });
+      }
+      return res.send(data);
+    })
     .catch(err => {
       res.send({
         success: false,
@@ -149,7 +156,7 @@ function addQuiz(req, res) {
       quiz_author: req.body.quiz_author,
       istemporary: req.body.istemporary
     })
-    .then(data => res.send(data))
+    .then(data => res.send({ success: true, message: "Onnistui" }))
     .catch(err => {
       console.log("virheviesti: " + err.message);
       res.send({
@@ -162,9 +169,7 @@ function addQuiz(req, res) {
 // Väliaikaisten quizien, kysymysten ja tulosten poistofunktio. Poistaa databasesta yli 12 tuntia vanhat "t" merkinnällä olevat rivit.
 const clearTemporaries = () => {
   const now = new Date();
-  console.log(now);
   now.setHours(now.getHours() - 12);
-  console.log(now);
   topicservice.clearTemporary({
     where: { istemporary: "t", createdAt: { [Op.lte]: now } }
   });
