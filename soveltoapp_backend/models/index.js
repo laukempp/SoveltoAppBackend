@@ -33,6 +33,7 @@ const Quiz = sequelize.define("quizzes", {
   title: Sequelize.STRING,
   question_ids: Sequelize.ARRAY(Sequelize.INTEGER),
   istemporary: Sequelize.BOOLEAN,
+  quiz_type: Sequelize.BOOLEAN,
   quiz_badge: Sequelize.TEXT,
   quiz_author: {
     type: Sequelize.INTEGER,
