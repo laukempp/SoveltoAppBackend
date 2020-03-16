@@ -103,7 +103,7 @@ function addQuestion(req, res) {
       istemporary: req.body.istemporary
     })
     .then(data => {
-      res.send(data);
+      res.send({ data, success: true });
     })
     .catch(err => {
       res.send({
