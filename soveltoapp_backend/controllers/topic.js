@@ -121,7 +121,7 @@ function getStudentQuestions(req, res) {
 
       return topicservice
         .getStudentQuestions({
-          attributes: ["question_ids", "title", "quiz_badge"],
+          attributes: ["question_ids", "title", "quiz_badge", "quiz_type"],
           where: {
             quiz_author: req.body.badge,
             quiz_posttime: { [Op.gte]: now.toISOString() }
@@ -147,7 +147,8 @@ function addQuiz(req, res) {
       question_ids: req.body.question_ids,
       quiz_badge: req.body.quiz_badge,
       quiz_author: req.body.quiz_author,
-      istemporary: req.body.istemporary
+      istemporary: req.body.istemporary,
+      quiz_type: req.body.quiz_type
     })
     .then(data => res.send(data))
     .catch(err => {

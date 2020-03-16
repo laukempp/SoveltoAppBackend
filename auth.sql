@@ -51,6 +51,7 @@ CREATE TABLE quizzes(
     isTemporary boolean,
     quiz_badge VARCHAR(255) NOT NULL UNIQUE,
     quiz_author int REFERENCES users(teacher_badge),
+    quiz_type boolean,
     quiz_posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
