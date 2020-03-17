@@ -9,7 +9,7 @@ const condition = object => {
   if (object.q_tags) {
     searchInput["q_tags"] = { [Op.overlap]: object.q_tags }
   }
-  if (object.topics_id !== 0) {
+  if (object.topics_id) {
     searchInput["topics_id"] = object.topics_id
   }
   if (object.useBadge) {
@@ -85,6 +85,7 @@ function getQuestions(req, res) {
 
 //Lisätään kysymysrivi
 function addQuestion(req, res) {
+  
   topicservice
     .createQuestion({
       question: req.body.question,
