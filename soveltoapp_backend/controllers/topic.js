@@ -92,6 +92,34 @@ function getQuestions(req, res) {
 
 //Lisätään kysymysrivi
 function addQuestion(req, res) {
+
+
+  
+  if (req.body.topics_id.__isNew__) {
+    topicservice.createTopic({title: req.body.topics_id.label})
+    .then(data => {
+      console.log(data)
+      topicservice
+    .createQuestion({
+      question: req.body.question,
+      correct_answer: req.body.correct_answer,
+      wrong_answer: req.body.wrong_answer,
+      topics_id: data.id,
+      q_tags: req.body.q_tags,
+      q_author: req.body.q_author,
+      istemporary: req.body.istemporary
+    })
+    .then(data => {
+      res.send({ data, success: true });
+    })
+    .catch(err => {
+      res.send({
+        success: false,
+        message: err.message
+      });
+    });
+    })
+  } else {
   
   topicservice
     .createQuestion({
@@ -112,6 +140,7 @@ function addQuestion(req, res) {
         message: err.message
       });
     });
+  }
 }
 
 //Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä. Tässä siis tarkistetaan ensin, onko oppilaan sessionID:lla ja quizin ID:lla jo tallennettu vastausrivi score-tauluun. Jos on, ei palauteta dataa, koska oppilas on jo kerran vastannut quiziin. Jos ei ole, palautetaan data, mikäli quiz on luotu alle 10 minuuttia sitten JA opettajanumero on oikein.

@@ -67,6 +67,8 @@ const createQuestion = async question =>
 //Luodaan uusi quiz tietokantaan
 const createQuiz = quiz => Quiz.create(quiz);
 
+const createTopic = topic => Topics.create(topic)
+
 //Haetaan aiheet sequelizen findAll-funktiolla
 const getTopics = () =>
   Topics.findAll({ attributes: ["id", "title"] }).then(topic => {
@@ -123,5 +125,6 @@ module.exports = {
   getTopics,
   getStudentQuestions,
   createQuiz,
-  clearTemporary
+  clearTemporary,
+  createTopic
 };
