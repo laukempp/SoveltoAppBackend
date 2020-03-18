@@ -79,7 +79,8 @@ function getQuestions(req, res) {
         });
       } else if (!data[0]) {
         return res.send({
-          message: "Kysymyksiä ei löytynyt. Kokeile esimerkiksi käyttää vähemmän tageja."
+          message:
+            "Kysymyksiä ei löytynyt. Kokeile esimerkiksi käyttää vähemmän tageja."
         });
       }
       return res.send(data);
@@ -95,27 +96,33 @@ function getQuestions(req, res) {
 //Lisätään kysymysrivi & uusi aihe, mikäli aihe on uusi
 function addQuestion(req, res) {
   if (req.body.topics_id.__isNew__) {
-    topicservice.createTopic({ title: req.body.topics_id.label }).then(data => {
-      topicservice
-        .createQuestion({
-          question: req.body.question,
-          correct_answer: req.body.correct_answer,
-          wrong_answer: req.body.wrong_answer,
-          topics_id: data.id,
-          q_tags: req.body.q_tags,
-          q_author: req.body.q_author,
-          istemporary: req.body.istemporary
-        })
-        .then(data => {
-          res.send({ data, success: true });
-        })
-        .catch(err => {
-          res.send({
-            success: false,
-            message: err.message
+    console.log(req.body);
+    topicservice
+      .createTopic({
+        title: req.body.topics_id.label,
+        istemporary: req.body.istemporary
+      })
+      .then(data => {
+        topicservice
+          .createQuestion({
+            question: req.body.question,
+            correct_answer: req.body.correct_answer,
+            wrong_answer: req.body.wrong_answer,
+            topics_id: data.id,
+            q_tags: req.body.q_tags,
+            q_author: req.body.q_author,
+            istemporary: req.body.istemporary
+          })
+          .then(data => {
+            res.send({ data, success: true });
+          })
+          .catch(err => {
+            res.send({
+              success: false,
+              message: err.message
+            });
           });
-        });
-    });
+      });
   } else {
     topicservice
       .createQuestion({
@@ -156,7 +163,7 @@ function getStudentQuestions(req, res) {
         .getStudentQuestions({
           attributes: ["question_ids", "title", "quiz_badge", "quiz_type"],
           where: {
-            quiz_author: req.body.badge,
+            quiz_badge: req.body.quiz_badge,
             quiz_posttime: { [Op.gte]: now.toISOString() }
           },
           order: [["createdAt", "DESC"]],
