@@ -58,8 +58,6 @@ const getOneForStudent = object =>
         attributes: ["id", "question", "correct_answer", "wrong_answer"],
         where: { id: score[0].dataValues.question_ids }
       }).then(quizQuestions => {
-        console.log(score[0].dataValues.question_ids);
-        console.log(modifyScoreArray(score));
         return calculateScore(quizQuestions, modifyScoreArray(score), score);
       })
     )

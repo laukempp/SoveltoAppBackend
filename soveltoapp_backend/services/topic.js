@@ -21,7 +21,6 @@ const modifyTags = array => {
     idNro++;
     return { id: idNro, name: item };
   });
-  console.log("uniqueTags", returnArray);
   return returnArray;
 };
 
@@ -60,13 +59,13 @@ const createQuestion = async question =>
       }
     })
     .then(data => {
-      console.log(data);
       return data;
     });
 
 //Luodaan uusi quiz tietokantaan
 const createQuiz = quiz => Quiz.create(quiz);
 
+//Luodaan uusi aihe tietokantaan
 const createTopic = topic => Topics.create(topic)
 
 //Haetaan aiheet sequelizen findAll-funktiolla
@@ -75,6 +74,7 @@ const getTopics = () =>
     return topic;
   });
 
+//Haetaan kaikki tagit - tageilla ei ole omaa taulua, joten ne haetaan kysymys-taulusta ja array muotoillaan niin, että sieltä poistetaan kaikki duplikaatit ja frontille palautetaan array, jossa jokainen tagi esiintyy vain kerran
 const getTags = () =>
   Question.findAll({
     where: { q_tags: { [Op.ne]: null } },
