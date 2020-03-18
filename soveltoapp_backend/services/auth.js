@@ -24,7 +24,6 @@ const authenticate = params => {
               expiresIn: config.tokenExpireTime
           });
           var teacher_badge = user.teacher_badge;
-          console.log(teacher_badge)
           return {token, teacher_badge};
       });
 }

@@ -3,6 +3,7 @@ const Topics = require("../models").Topics;
 const topicservice = require("../services/topic");
 const scoreservice = require("../services/score");
 
+//Hakuehto-olion muotoilu kysymysten etsimiselle. Funktio tarkistaa, mitä hakuehtoja käyttäjä on fronttipäässä valinnut ja sen mukaan koostaa hakuehto-olion, jolla kysymykset tietokannasta haetaan
 const condition = object => {
   let searchInput = {};
 
@@ -10,7 +11,7 @@ const condition = object => {
     searchInput["q_tags"] = { [Op.overlap]: object.q_tags };
   }
   if (object.topics_id) {
-    searchInput["topics_id"] = object.topics_id
+    searchInput["topics_id"] = object.topics_id;
   }
   if (object.useBadge) {
     searchInput["q_author"] = parseInt(object.teacher_badge);
@@ -18,6 +19,7 @@ const condition = object => {
   return searchInput;
 };
 
+//Järjestämisehto kysymysten haulle; jos käyttäjä hakee vain rajatun määrän kysymyksiä, kysymysten järjestys satunnaistetaan. Muuten kysymykset tulevat id-järjestyksessä
 const orderCondition = object => {
   if (object.number < 1000) {
     return sequelize.random();
@@ -70,14 +72,14 @@ function getQuestions(req, res) {
       where: condition(req.body)
     })
     .then(data => {
-      if (!req.body.q_tags && req.body.topics_id === 0) {
+      if (!req.body.q_tags && !req.body.topics_id) {
         return res.send({
           message:
             "Kysymyksiä ei löytynyt. Muistithan antaa aiheen tai tageja hakuehdoiksi?"
         });
       } else if (!data[0]) {
         return res.send({
-          message: "Kysymyksiä ei löytynyt. Kokeile käyttää vähemmän tageja."
+          message: "Kysymyksiä ei löytynyt. Kokeile esimerkiksi käyttää vähemmän tageja."
         });
       }
       return res.send(data);
@@ -90,56 +92,50 @@ function getQuestions(req, res) {
     });
 }
 
-//Lisätään kysymysrivi
+//Lisätään kysymysrivi & uusi aihe, mikäli aihe on uusi
 function addQuestion(req, res) {
-
-
-  
   if (req.body.topics_id.__isNew__) {
-    topicservice.createTopic({title: req.body.topics_id.label})
-    .then(data => {
-      console.log(data)
+    topicservice.createTopic({ title: req.body.topics_id.label }).then(data => {
       topicservice
-    .createQuestion({
-      question: req.body.question,
-      correct_answer: req.body.correct_answer,
-      wrong_answer: req.body.wrong_answer,
-      topics_id: data.id,
-      q_tags: req.body.q_tags,
-      q_author: req.body.q_author,
-      istemporary: req.body.istemporary
-    })
-    .then(data => {
-      res.send({ data, success: true });
-    })
-    .catch(err => {
-      res.send({
-        success: false,
-        message: err.message
-      });
+        .createQuestion({
+          question: req.body.question,
+          correct_answer: req.body.correct_answer,
+          wrong_answer: req.body.wrong_answer,
+          topics_id: data.id,
+          q_tags: req.body.q_tags,
+          q_author: req.body.q_author,
+          istemporary: req.body.istemporary
+        })
+        .then(data => {
+          res.send({ data, success: true });
+        })
+        .catch(err => {
+          res.send({
+            success: false,
+            message: err.message
+          });
+        });
     });
-    })
   } else {
-  
-  topicservice
-    .createQuestion({
-      question: req.body.question,
-      correct_answer: req.body.correct_answer,
-      wrong_answer: req.body.wrong_answer,
-      topics_id: req.body.topics_id,
-      q_tags: req.body.q_tags,
-      q_author: req.body.q_author,
-      istemporary: req.body.istemporary
-    })
-    .then(data => {
-      res.send({ data, success: true });
-    })
-    .catch(err => {
-      res.send({
-        success: false,
-        message: err.message
+    topicservice
+      .createQuestion({
+        question: req.body.question,
+        correct_answer: req.body.correct_answer,
+        wrong_answer: req.body.wrong_answer,
+        topics_id: req.body.topics_id.value,
+        q_tags: req.body.q_tags,
+        q_author: req.body.q_author,
+        istemporary: req.body.istemporary
+      })
+      .then(data => {
+        res.send({ data, success: true });
+      })
+      .catch(err => {
+        res.send({
+          success: false,
+          message: err.message
+        });
       });
-    });
   }
 }
 
@@ -189,7 +185,6 @@ function addQuiz(req, res) {
     })
     .then(data => res.send({ success: true, message: "Onnistui" }))
     .catch(err => {
-      console.log("virheviesti: " + err.message);
       res.send({
         success: false,
         message: err.message

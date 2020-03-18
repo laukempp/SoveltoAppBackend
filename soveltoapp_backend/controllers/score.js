@@ -45,8 +45,6 @@ function addScores(req, res) {
         });
       }
 
-      console.log(exists)
-
       return scoreservice
         .createScore({
           nickname: req.body.nickname,
