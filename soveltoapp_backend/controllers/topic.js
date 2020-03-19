@@ -101,27 +101,33 @@ function getQuestions(req, res) {
 function addQuestion(req, res) {
 
   if (req.body.topics_id.__isNew__) {
-    topicservice.createTopic({ title: req.body.topics_id.label }).then(data => {
-      topicservice
-        .createQuestion({
-          question: req.body.question,
-          correct_answer: req.body.correct_answer,
-          wrong_answer: req.body.wrong_answer,
-          topics_id: data.id,
-          q_tags: req.body.q_tags,
-          q_author: req.body.q_author,
-          istemporary: req.body.istemporary
-        })
-        .then(data => {
-          res.send({ data, success: true });
-        })
-        .catch(err => {
-          res.send({
-            success: false,
-            message: err.message
+    console.log(req.body);
+    topicservice
+      .createTopic({
+        title: req.body.topics_id.label,
+        istemporary: req.body.istemporary
+      })
+      .then(data => {
+        topicservice
+          .createQuestion({
+            question: req.body.question,
+            correct_answer: req.body.correct_answer,
+            wrong_answer: req.body.wrong_answer,
+            topics_id: data.id,
+            q_tags: req.body.q_tags,
+            q_author: req.body.q_author,
+            istemporary: req.body.istemporary
+          })
+          .then(data => {
+            res.send({ data, success: true });
+          })
+          .catch(err => {
+            res.send({
+              success: false,
+              message: err.message
+            });
           });
-        });
-    });
+      });
   } else {
     topicservice
       .createQuestion({

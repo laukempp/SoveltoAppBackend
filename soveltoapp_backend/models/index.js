@@ -10,7 +10,8 @@ const User = sequelize.define("user", {
 });
 
 const Topics = sequelize.define("topics", {
-  title: Sequelize.STRING
+  title: Sequelize.STRING,
+  istemporary: Sequelize.BOOLEAN
 });
 
 const Questions = sequelize.define("questions", {

@@ -13,6 +13,7 @@ teacher_badge INT NOT NULL UNIQUE,
 CREATE TABLE topics(
 id SERIAL PRIMARY KEY,
 title VARCHAR(255) NOT NULL,
+isTemporary boolean,
 posttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -72,14 +73,14 @@ CREATE TABLE scores(
 /*Käyttäjän salasana on Testi123*/
 INSERT INTO users(login, password, teacher_badge) VALUES('testi@testi.com', '$2y$04$KaSD2fmFDrW0kStfzJ580.8oj.DdfYyP3eOdaeTukoIGW8VUKyAP2', 12345);
 
-INSERT INTO topics(title, posttime) VALUES('React', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('Scrum', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('CSS', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('Python', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('Angular', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('AWS', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('SQL', DEFAULT);
-INSERT INTO topics(title, posttime) VALUES('HTML', DEFAULT);
+INSERT INTO topics(title, posttime, isTemporary) VALUES('React', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('Scrum', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('CSS', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('Python', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('Angular', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('AWS', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('SQL', DEFAULT, 'f');
+INSERT INTO topics(title, posttime, isTemporary) VALUES('HTML', DEFAULT, 'f');
  INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (1, '{"react", "javascript", "hooks", "props"}', 'Is this easy', 'no', '{"yes", "kind of", "not sure"}', DEFAULT);
  INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (1, '{"react"}', 'Who is a good boy?', 'The dog is', '{"Not me", "Possibly me", "Jesus Christ Superstar"}', DEFAULT);
  INSERT INTO questions(topics_id, q_tags, question, correct_answer, wrong_answer, q_posttime) VALUES (1, '{"javascript", "react"}', 'How big is the world?', 'Yambalayaa!', '{"Mambo number 5", "Scaramouche, scaramouche!", "Nothing matters to meeeeeee"}', DEFAULT);
