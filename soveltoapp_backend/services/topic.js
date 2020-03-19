@@ -66,11 +66,14 @@ const createQuestion = async question =>
 const createQuiz = quiz => Quiz.create(quiz);
 
 //Luodaan uusi aihe tietokantaan
-const createTopic = topic => Topics.create(topic)
+const createTopic = topic => Topics.create(topic);
 
 //Haetaan aiheet sequelizen findAll-funktiolla
 const getTopics = () =>
-  Topics.findAll({ attributes: ["id", "title"] }).then(topic => {
+  Topics.findAll({
+    where: { istemporary: "f" },
+    attributes: ["id", "title"]
+  }).then(topic => {
     return topic;
   });
 
@@ -116,6 +119,7 @@ const clearTemporary = async object => {
     }
   });
   await Quiz.destroy(object);
+  await Topics.destroy(object);
 };
 
 module.exports = {
