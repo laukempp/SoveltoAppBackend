@@ -19,6 +19,8 @@ const condition = object => {
   return searchInput;
 };
 
+
+
 //Järjestämisehto kysymysten haulle; jos käyttäjä hakee vain rajatun määrän kysymyksiä, kysymysten järjestys satunnaistetaan. Muuten kysymykset tulevat id-järjestyksessä
 const orderCondition = object => {
   if (object.number < 1000) {
@@ -56,45 +58,48 @@ function getAllTags(req, res) {
 //Haetaan kysymykset - mikäli opettaja on rajannut haettavien rivien määrää, tuloksena on vain se määrä. Oletuslimit on 1000. Tämä on opettajalle haettavat kysymykset tentin luomista varten.
 function getQuestions(req, res) {
   console.log(req.body);
-  topicservice
-    .generateQuiz({
-      order: orderCondition(req.body),
-      limit: req.body.number,
-      attributes: [
-        "id",
-        "question",
-        "correct_answer",
-        "wrong_answer",
-        "topics_id",
-        "q_tags",
-        "q_author"
-      ],
-      where: condition(req.body)
-    })
-    .then(data => {
-      if (!req.body.q_tags && !req.body.topics_id) {
-        return res.send({
-          message:
-            "Kysymyksiä ei löytynyt. Muistithan antaa aiheen tai tageja hakuehdoiksi?"
-        });
-      } else if (!data[0]) {
-        return res.send({
-          message:
-            "Kysymyksiä ei löytynyt. Kokeile esimerkiksi käyttää vähemmän tageja."
-        });
-      }
-      return res.send(data);
-    })
-    .catch(err => {
-      res.send({
-        success: false,
-        message: err.message
-      });
+  const { topics_id, useBadge, q_tags } = req.body;
+
+  if (!topics_id && !useBadge && !q_tags) {
+    return res.send({
+      message: "Antamillasi hakuehdoilla ei löytynyt kysymyksiä"
     });
+  } else {
+    topicservice
+      .generateQuiz({
+        order: orderCondition(req.body),
+        limit: req.body.number,
+        attributes: [
+          "id",
+          "question",
+          "correct_answer",
+          "wrong_answer",
+          "topics_id",
+          "q_tags",
+          "q_author"
+        ],
+        where: condition(req.body)
+      })
+      .then(data => {
+        if (!data[0]) {
+          return res.send({
+            message: "Antamillasi hakuehdoilla ei löytynyt kysymyksiä"
+          });
+        }
+        return res.send(data);
+      })
+      .catch(err => {
+        res.send({
+          success: false,
+          message: err.message
+        });
+      });
+  }
 }
 
 //Lisätään kysymysrivi & uusi aihe, mikäli aihe on uusi
 function addQuestion(req, res) {
+
   if (req.body.topics_id.__isNew__) {
     console.log(req.body);
     topicservice
@@ -146,6 +151,17 @@ function addQuestion(req, res) {
   }
 }
 
+const studentCondition = (object, now) => {
+  let searchInput = {quiz_posttime: { [Op.gte]: now.toISOString()}}
+
+  if (object.quiz_badge) {
+    searchInput["quiz_badge"] = object.quiz_badge
+  } else if (!object.quiz_badge) {
+    searchInput["quiz_author"] = object.badge
+  }
+  return searchInput
+}
+
 //Tässä haetaan kysymyksiä opiskelijan näkymään, mikä tehdään hieman pidemmän kaavan kautta kuin opettajanäkymässä. Tässä siis tarkistetaan ensin, onko oppilaan sessionID:lla ja quizin ID:lla jo tallennettu vastausrivi score-tauluun. Jos on, ei palauteta dataa, koska oppilas on jo kerran vastannut quiziin. Jos ei ole, palautetaan data, mikäli quiz on luotu alle 10 minuuttia sitten JA opettajanumero on oikein.
 function getStudentQuestions(req, res) {
   return scoreservice
@@ -162,14 +178,12 @@ function getStudentQuestions(req, res) {
       return topicservice
         .getStudentQuestions({
           attributes: ["question_ids", "title", "quiz_badge", "quiz_type"],
-          where: {
-            quiz_badge: req.body.quiz_badge,
-            quiz_posttime: { [Op.gte]: now.toISOString() }
-          },
+          where: studentCondition(req.body, now),        
           order: [["createdAt", "DESC"]],
           limit: 1
         })
-        .then(data => res.send(data));
+        .then(data => {
+          return res.send(data)});
     })
     .catch(err => {
       res.send({
